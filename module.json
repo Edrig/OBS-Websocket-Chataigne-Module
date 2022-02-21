@@ -1,0 +1,27 @@
+{
+   "name":"OBS Websocket",
+   "type":"WebSocket Client",
+   "path":"Software",
+   "version":"1.0.0",
+   "description":"OBS Websocket Module",
+   "url":"https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
+   "downloadURL":"https://github.com/Edrig/OBS-Websocket-Chataigne-Module/archive/master.zip",
+   "hasInput":true,
+   "hasOutput":true,
+   "hideDefaultCommands":true,
+
+   "parameters":{
+
+   },
+	"defaults":
+	{		
+		"Protocol":"Lines",
+		"autoAdd":false,
+		"serverPath":"127.0.0.1:4444"
+	},
+
+   "scripts":[
+      "OBS.js"
+   ],
+}
+}
