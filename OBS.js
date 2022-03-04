@@ -17,8 +17,7 @@ function dataReceived(data)
 {
 	//If mode is "Lines", you can expect data to be a single line String
 	script.log("Data received : " +data);
-	obj = JSON.parse(data);
-
+	
 	//If mode is anything else, you can expect data to be an array of bytes
 	script.log("Bytes received : "+data.length);
 	for(var i=0; i < data.length; i++)
@@ -45,74 +44,83 @@ function wsDataReceived(data)
 	script.log("Websocket data received : " +data);
 }
 
+function sendObsCommand(req, data) {
+	data = data !== undefined ? data : {};
+	data["message-id"] = "Chataigne";
+	data["request-type"] = req;
+
+	script.log(JSON.stringify(data));
+	local.send(JSON.stringify(data)); 
+}
+
 function sendObsRawCommand(json)
 {
 	local.send(json);
 }
 
-function sendObsCommand(req, data) {
-	data = data !== undefined ? data : {};
-	data["request-type"] = req;
-	data["message-id"] = "Chataigne";
-	script.log(JSON.stringify(data));
-	local.send(JSON.stringify(data)); 
-}
-
+/*Error Bad request format*/
 function OBSPlayMedia(source) {
 	var data = {};
-	data["source"] = source;
-	data["playPause"] = false;
+	data["sourceName"] = source;
+	//data["playPause"] = "false";
 	sendObsCommand("PlayPauseMedia", data);
 }
 
+/*Error Bad request format*/
 function OBSPauseMedia(source) {
 	var data = {};
-	data["source"] = source;
-	data["playPause"] = true;
+	data["sourceName"] = source;
+	//data["playPause"] = "true";
 	sendObsCommand("PlayPauseMedia", data);
 }
 
 function OBSRestartMedia(source) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	sendObsCommand("RestartMedia", data);
 }
 
 function OBSStopMedia(source) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	sendObsCommand("StopMedia", data);
 }
 
 function OBSNextMedia(source) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	sendObsCommand("NextMedia", data);
 }
 
 function OBSPreviousMedia(source) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	sendObsCommand("PreviousMedia", data);
 }
 
 function OBSSetMediaTime(source, time) {
 	var data = {};
-	data["source"] = source;
-	data["timeStamp"] = time;
+	data["sourceName"] = source;
+	data["timestamp"] = time;
 	sendObsCommand("SetMediaTime", data);
+}
+
+function OBSGetMediaTime(source) {
+	var data = {};
+	data["sourceName"] = source;
+	sendObsCommand("GetMediaTime", data);
 }
 
 function OBSScrubMedia(source, time) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	data["timeOffset"] = time;
 	sendObsCommand("ScrubMedia", data);
 }
 
 function OBSSetVolume(source, vol) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	data["volume"] = vol;
 	data["useDecibel"] = false;
 	sendObsCommand("SetVolume", data);
@@ -120,7 +128,7 @@ function OBSSetVolume(source, vol) {
 
 function OBSSetVolumeDb(source, vol) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	data["volume"] = vol;
 	data["useDecibel"] = true;
 	sendObsCommand("SetVolume", data);
@@ -128,21 +136,21 @@ function OBSSetVolumeDb(source, vol) {
 
 function OBSSetMute(source, val) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	data["mute"] = val;
 	sendObsCommand("SetMute", data);
 }
 
 function OBSToggleMute(source, val) {
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	sendObsCommand("ToggleMute", data);
 }
 
 
 function OBSTakeSourceScreenshot(source, format, path) { // "png", "jpg", "jpeg" or "bmp", 
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	data["embedPictureFormat"] = format;
 	data["saveToFilePath"] = path;
 	sendObsCommand("TakeSourceScreenshot", data);
@@ -150,7 +158,7 @@ function OBSTakeSourceScreenshot(source, format, path) { // "png", "jpg", "jpeg"
 
 function OBSRefreshBrowserSource(source) { 
 	var data = {};
-	data["source"] = source;
+	data["sourceName"] = source;
 	sendObsCommand("RefreshBrowserSource", data);
 }
 

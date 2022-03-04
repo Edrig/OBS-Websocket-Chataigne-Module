@@ -23,4 +23,277 @@
    "scripts":[
       "OBS.js"
    ],
+   "commands":{
+   "Raw Command":{
+         "menu":"",
+         "callback":"sendObsRawCommand",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },
+
+   "PlayMedia":{
+         "menu":"",
+         "callback":"OBSPlayMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            }
+         }
+      },
+
+   "PauseMedia":{
+         "menu":"",
+         "callback":"OBSPauseMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            }
+         }
+      },
+
+   "RestartMedia":{
+         "menu":"",
+         "callback":"OBSRestartMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            }
+         }
+      },
+
+   "StopMedia":{
+         "menu":"",
+         "callback":"OBSStopMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "NextMedia":{
+         "menu":"",
+         "callback":"OBSNextMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "PreviousMedia":{
+         "menu":"",
+         "callback":"OBSPreviousMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetMediaTime":{
+         "menu":"",
+         "callback":"OBSSetMediaTime",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            },
+            "timestamp":{
+               "type":"Integer"
+            }
+         }
+      },    
+      
+   "ScrubMedia":{
+         "menu":"",
+         "callback":"OBSScrubMedia",
+         "parameters":{
+            "sourceName":{
+               "type":"String"
+            },
+            "timeOffset":{
+               "type":"Integer"
+            }
+         }
+      },    
+      
+   "SetVolume":{
+         "menu":"",
+         "callback":"OBSSetVolume",
+         "parameters":{
+            "source":{
+               "type":"String"
+            },
+            "volume":{
+               "type":"Float"
+            },
+            "useDecibel":{
+               "type":"Boolean"
+            }
+         }
+      },    
+      
+   "SetVolumeDb":{
+         "menu":"",
+         "callback":"OBSSetVolumeDb",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetMute":{
+         "menu":"",
+         "callback":"OBSSetMute",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "ToggleMute":{
+         "menu":"",
+         "callback":"OBSToggleMute",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "TakeSourceScreenshot":{
+         "menu":"",
+         "callback":"OBSTakeSourceScreenshot",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "RefreshBrowserSource":{
+         "menu":"",
+         "callback":"OBSRefreshBrowserSource",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetCurrentProfile":{
+         "menu":"",
+         "callback":"OBSSetCurrentProfile",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "StartRecording":{
+         "menu":"",
+         "callback":"OBSStartRecording",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "StopRecording":{
+         "menu":"",
+         "callback":"OBSStopRecording",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "PauseRecording":{
+         "menu":"",
+         "callback":"OBSPauseRecording",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "ResumeRecording":{
+         "menu":"",
+         "callback":"OBSResumeRecording",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetCurrentSceneCollection":{
+         "menu":"",
+         "callback":"OBSSetCurrentSceneCollection",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetCurrentScene":{
+         "menu":"",
+         "callback":"OBSSetCurrentScene",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetSceneTransitionOverride":{
+         "menu":"",
+         "callback":"OBSSetSceneTransitionOverride",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetPreviewScene":{
+         "menu":"",
+         "callback":"OBSSetPreviewScene",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetCurrentTransition":{
+         "menu":"",
+         "callback":"OBSSetCurrentTransition",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      },    
+      
+   "SetTransitionDuration":{
+         "menu":"",
+         "callback":"OBSSetTransitionDuration",
+         "parameters":{
+            "data":{
+               "type":"String"
+            }
+         }
+      }
+   }
 }
