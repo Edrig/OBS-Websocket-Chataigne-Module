@@ -26,6 +26,9 @@ function dataReceived(data)
 	}
 }
 
+
+
+
 /* ********** STREAMING MODULE (UDP, TCP, SERIAL, WEBSOCKET) SPECIFIC SCRIPTING ********************* */
 /*
 
@@ -33,7 +36,6 @@ Websoskets modules can be used as standard Streaming Module and use the dataRece
 but you can also intercept messages and data directly from the streaming, before it is processed, using specific 
 event callbacks below
 */
-
 function wsMessageReceived(message)
 {
 	script.log("Websocket data received : " +message);
@@ -45,12 +47,18 @@ function wsDataReceived(data)
 }
 
 function sendObsCommand(req, data) {
-	data = data !== undefined ? data : {};
-	data["message-id"] = "Chataigne";
-	data["request-type"] = req;
+	var send = {};
+	var para = {};
+	para["requestType"] = req;
+	para["requestId"] = "FromChataigne";
+	para["requestData"] = data;
 
-	script.log(JSON.stringify(data));
-	local.send(JSON.stringify(data)); 
+/*!== undefined ? data : {}*/
+	send["op"]=6;
+	send["d"]=para;
+
+	script.log(JSON.stringify(send));
+	local.send(JSON.stringify(send)); 
 }
 
 function sendObsRawCommand(json)
@@ -58,59 +66,63 @@ function sendObsRawCommand(json)
 	local.send(json);
 }
 
-/*Error Bad request format*/
 function OBSPlayMedia(source) {
 	var data = {};
-	data["sourceName"] = source;
-	//data["playPause"] = "false";
-	sendObsCommand("PlayPauseMedia", data);
+	data["inputName"] = source;
+	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY";
+	sendObsCommand("TriggerMediaInputAction", data);
 }
 
-/*Error Bad request format*/
 function OBSPauseMedia(source) {
 	var data = {};
-	data["sourceName"] = source;
-	//data["playPause"] = "true";
-	sendObsCommand("PlayPauseMedia", data);
+	data["inputName"] = source;
+	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE";
+	sendObsCommand("TriggerMediaInputAction", data);
 }
 
 function OBSRestartMedia(source) {
 	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("RestartMedia", data);
+	data["inputName"] = source;
+	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART";
+	sendObsCommand("TriggerMediaInputAction", data);
 }
 
 function OBSStopMedia(source) {
 	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("StopMedia", data);
+	data["inputName"] = source;
+	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP";
+	sendObsCommand("TriggerMediaInputAction", data);
 }
 
 function OBSNextMedia(source) {
 	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("NextMedia", data);
+	data["inputName"] = source;
+	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT";
+	sendObsCommand("TriggerMediaInputAction", data);
 }
 
 function OBSPreviousMedia(source) {
 	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("PreviousMedia", data);
+	data["inputName"] = source;
+	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS";
+	sendObsCommand("TriggerMediaInputAction", data);
 }
 
 function OBSSetMediaTime(source, time) {
 	var data = {};
-	data["sourceName"] = source;
-	data["timestamp"] = time;
-	sendObsCommand("SetMediaTime", data);
+	data["inputName"] = source;
+	data["mediaCursor"] = time;
+	sendObsCommand("SetMediaInputCursor", data);
 }
 
+/*to checked/to find*/
 function OBSGetMediaTime(source) {
 	var data = {};
 	data["sourceName"] = source;
 	sendObsCommand("GetMediaTime", data);
 }
 
+/*to checked/to find*/
 function OBSScrubMedia(source, time) {
 	var data = {};
 	data["sourceName"] = source;
@@ -120,42 +132,43 @@ function OBSScrubMedia(source, time) {
 
 function OBSSetVolume(source, vol) {
 	var data = {};
-	data["sourceName"] = source;
-	data["volume"] = vol;
-	data["useDecibel"] = false;
-	sendObsCommand("SetVolume", data);
+	data["inputName"] = source;
+	data["inputVolumeMul"] = vol;
+	/*data["inputVolumeDb"] = 0;*/
+	sendObsCommand("SetInputVolume", data);
 }
 
 function OBSSetVolumeDb(source, vol) {
 	var data = {};
-	data["sourceName"] = source;
-	data["volume"] = vol;
-	data["useDecibel"] = true;
-	sendObsCommand("SetVolume", data);
+	data["inputName"] = source;
+	data["inputVolumeDb"] = vol;
+	sendObsCommand("SetInputVolume", data);
 }
 
+/*to checked*/
 function OBSSetMute(source, val) {
 	var data = {};
-	data["sourceName"] = source;
-	data["mute"] = val;
-	sendObsCommand("SetMute", data);
+	data["inputName"] = source;
+	data["inputMuted"] = val;
+	sendObsCommand("SetInputMute", data);
 }
 
 function OBSToggleMute(source, val) {
 	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("ToggleMute", data);
+	data["inputName"] = source;
+	sendObsCommand("ToggleInputMute", data);
 }
 
-
+/*checked*/
 function OBSTakeSourceScreenshot(source, format, path) { // "png", "jpg", "jpeg" or "bmp", 
 	var data = {};
 	data["sourceName"] = source;
-	data["embedPictureFormat"] = format;
-	data["saveToFilePath"] = path;
-	sendObsCommand("TakeSourceScreenshot", data);
+	data["imageFormat"] = format;
+	data["imageFilePath"] = path;
+	sendObsCommand("SaveSourceScreenshot", data);
 }
 
+/*to checked/to find*/
 function OBSRefreshBrowserSource(source) { 
 	var data = {};
 	data["sourceName"] = source;
@@ -164,66 +177,66 @@ function OBSRefreshBrowserSource(source) {
 
 function OBSSetCurrentProfile(name) { 
 	var data = {};
-	data["profile-name"] = name;
+	data["profileName"] = name;
 	sendObsCommand("SetCurrentProfile", data);
 }
 
 function OBSStartRecording() { 
 	var data = {};
-	sendObsCommand("StartRecording", data);
+	sendObsCommand("StartRecord", data);
 }
 
 function OBSStopRecording() { 
 	var data = {};
-	sendObsCommand("StopRecording", data);
+	sendObsCommand("PauseRecord", data);
 }
 
 function OBSPauseRecording() { 
 	var data = {};
-	sendObsCommand("PauseRecording", data);
+	sendObsCommand("ToggleRecordPause", data);
 }
 
 function OBSResumeRecording() { 
 	var data = {};
-	sendObsCommand("ResumeRecording", data);
+	sendObsCommand("ResumeRecord", data);
 }
 
 function OBSSetCurrentSceneCollection(name) { 
 	var data = {};
-	data["sc-name"] = name;
+	data["sceneCollectionName"] = name;
 	sendObsCommand("SetCurrentSceneCollection", data);
 }
 
 function OBSSetCurrentScene(name) { 
 	var data = {};
-	data["scene-name"] = name;
-	sendObsCommand("SetCurrentScene", data);
+	data["sceneName"] = name;
+	sendObsCommand("SetCurrentProgramScene", data);
 }
 
 function OBSSetSceneTransitionOverride(name, transitionName, transitionDuration) { 
 	var data = {};
-	data["scene-name"] = name;
+	data["sceneName"] = name;
 	data["transitionName"] = transitionName;
 	data["transitionDuration"] = transitionDuration;
-	sendObsCommand("SetSceneTransitionOverride", data);
+	sendObsCommand("SetSceneSceneTransitionOverride", data);
 }
 
 function OBSSetPreviewScene(name) { 
 	var data = {};
-	data["scene-name"] = name;
-	sendObsCommand("SetPreviewScene", data);
+	data["sceneName"] = name;
+	sendObsCommand("SetCurrentPreviewScene", data);
 }
 
 function OBSSetCurrentTransition(name) { 
 	var data = {};
-	data["transition-name"] = name;
-	sendObsCommand("SetCurrentTransition", data);
+	data["transitionName"] = name;
+	sendObsCommand("SetCurrentSceneTransition", data);
 }
 
 function OBSSetTransitionDuration(duration) { 
 	var data = {};
-	data["duration"] = duration;
-	sendObsCommand("SetTransitionDuration", data);
+	data["transitionDuration"] = duration;
+	sendObsCommand("SetCurrentSceneTransitionDuration", data);
 }
 
 
