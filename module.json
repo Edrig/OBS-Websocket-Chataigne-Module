@@ -11,7 +11,8 @@
    "hideDefaultCommands":true,
 
    "parameters":{
-
+      "eventSubscriptions": { "type":"Integer" },
+      "password": { "type":"String" }
    },
 	"defaults":
 	{		
@@ -34,67 +35,67 @@
          }
       },
 
-   "PlayMedia":{
+   "Play Media":{
          "menu":"Media",
          "callback":"OBSPlayMedia",
          "parameters":{
-            "sourceName":{
+            "inputName":{
                "type":"String"
             }
          }
       },
 
-   "PauseMedia":{
+   "Pause Media":{
          "menu":"Media",
          "callback":"OBSPauseMedia",
          "parameters":{
-            "sourceName":{
+            "inputName":{
                "type":"String"
             }
          }
       },
 
-   "RestartMedia":{
+   "Restart Media":{
          "menu":"Media",
          "callback":"OBSRestartMedia",
          "parameters":{
-            "sourceName":{
+            "inputName":{
                "type":"String"
             }
          }
       },
 
-   "StopMedia":{
+   "Stop Media":{
          "menu":"Media",
          "callback":"OBSStopMedia",
          "parameters":{
-            "sourceName":{
+            "inputName":{
                "type":"String"
             }
          }
       },    
       
-   "NextMedia":{
+   "Next Media":{
          "menu":"Media",
          "callback":"OBSNextMedia",
          "parameters":{
-            "sourceName":{
+            "inputName":{
                "type":"String"
             }
          }
       },    
       
-   "PreviousMedia":{
+   "Previous Media":{
          "menu":"Media",
          "callback":"OBSPreviousMedia",
          "parameters":{
-            "sourceName":{
+            "inputName":{
                "type":"String"
             }
          }
       },    
       
-   "SetMediaTime":{
+   "Set Media Time":{
          "menu":"Media",
          "callback":"OBSSetMediaTime",
          "parameters":{
@@ -120,47 +121,50 @@
          }
       },    
       
-   "SetVolume":{
+   "Set Volume":{
          "menu":"Volume",
          "callback":"OBSSetVolume",
          "parameters":{
-            "source":{
+            "inputName":{
                "type":"String"
             },
             "volume":{
                "type":"Float"
-            },
-         }
-      },    
-      
-   "SetVolumeDb":{
-         "menu":"Volume",
-         "callback":"OBSSetVolumeDb",
-         "parameters":{
-            "source":{
-               "type":"String"
-            },
-            "volume":{
-               "type":"Float"
-            },
-         }
-      },    
-      
-   "SetMute":{
-         "menu":"Volume",
-         "callback":"OBSSetMute",
-         "parameters":{
-            "data":{
-               "type":"String"
             }
          }
       },    
       
-   "ToggleMute":{
+   "Set Volume Db":{
+         "menu":"Volume",
+         "callback":"OBSSetVolumeDb",
+         "parameters":{
+            "inputName":{
+               "type":"String"
+            },
+            "volume":{
+               "type":"Float"
+            }
+         }
+      },    
+      
+   "Set Mute":{
+         "menu":"Volume",
+         "callback":"OBSSetMute",
+         "parameters":{
+            "inputName":{
+               "type":"String"
+            },
+			"inputMuted":{
+               "type":"String"
+            },
+         }
+      },    
+      
+   "Toggle Mute":{
          "menu":"Volume",
          "callback":"OBSToggleMute",
          "parameters":{
-            "data":{
+            "inputName":{
                "type":"String"
             }
          }
@@ -170,9 +174,15 @@
          "menu":"Source",
          "callback":"OBSTakeSourceScreenshot",
          "parameters":{
-            "data":{
+            "sourceName":{
                "type":"String"
-            }
+            },
+			"imageFormat":{
+               "type":"String"
+            },
+			"imageFilePath":{
+               "type":"String"
+            },
          }
       },    
       
@@ -180,7 +190,7 @@
          "menu":"",
          "callback":"OBSRefreshBrowserSource",
          "parameters":{
-            "data":{
+            "sourceName":{
                "type":"String"
             }
          }
@@ -190,49 +200,33 @@
          "menu":"Profile",
          "callback":"OBSSetCurrentProfile",
          "parameters":{
-            "data":{
+            "profileName":{
                "type":"String"
             }
          }
       },    
       
-   "StartRecording":{
+   "Start Recording":{
          "menu":"Recording",
          "callback":"OBSStartRecording",
-         "parameters":{
-            "data":{
-               "type":"String"
-            }
          }
       },    
       
-   "StopRecording":{
+   "Stop Recording":{
          "menu":"Recording",
          "callback":"OBSStopRecording",
-         "parameters":{
-            "data":{
-               "type":"String"
-            }
          }
       },    
       
    "Toggle Pause Recording":{
          "menu":"Recording",
          "callback":"OBSPauseRecording",
-         "parameters":{
-            "data":{
-               "type":"String"
-            }
          }
       },    
       
    "Toggle Resume Recording":{
          "menu":"Recording",
          "callback":"OBSToggleResumeRecording",
-         "parameters":{
-            "data":{
-               "type":"String"
-            }
          }
       },    
       
@@ -240,17 +234,17 @@
          "menu":"Scene",
          "callback":"OBSSetCurrentSceneCollection",
          "parameters":{
-            "data":{
+            "sceneCollectionName":{
                "type":"String"
             }
          }
       },    
       
-   "SetCurrentScene":{
+   "SetCurrentProgramScene":{
          "menu":"Scene",
          "callback":"OBSSetCurrentScene",
          "parameters":{
-            "data":{
+            "sceneName":{
                "type":"String"
             }
          }
@@ -260,9 +254,15 @@
          "menu":"Transition",
          "callback":"OBSSetSceneTransitionOverride",
          "parameters":{
-            "data":{
+            "sceneName":{
                "type":"String"
-            }
+            },
+			"transitionName":{
+               "type":"String"
+            },
+			"transitionDuration":{
+               "type":"String"
+            },
          }
       },    
       
@@ -270,7 +270,7 @@
          "menu":"Scene",
          "callback":"OBSSetPreviewScene",
          "parameters":{
-            "data":{
+            "sceneName":{
                "type":"String"
             }
          }
@@ -280,7 +280,7 @@
          "menu":"Transition",
          "callback":"OBSSetCurrentTransition",
          "parameters":{
-            "data":{
+            "transitionName":{
                "type":"String"
             }
          }
@@ -290,7 +290,7 @@
          "menu":"Transition",
          "callback":"OBSSetTransitionDuration",
          "parameters":{
-            "data":{
+            "transitionDuration":{
                "type":"String"
             }
          }

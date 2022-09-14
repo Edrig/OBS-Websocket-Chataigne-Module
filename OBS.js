@@ -13,7 +13,7 @@ You can intercept all the received data from this module with the method dataRec
 Depending on the Protocol you chose, the nature of the data passed in this function will be different.
 */
 
-function dataReceived(data)
+/*function dataReceived(data)
 {
 	//If mode is "Lines", you can expect data to be a single line String
 	script.log("Data received : " +data);
@@ -24,7 +24,7 @@ function dataReceived(data)
 	{
 		script.log(" > " + data[i]);
 	}
-}
+}*/
 
 
 
@@ -39,6 +39,22 @@ event callbacks below
 function wsMessageReceived(message)
 {
 	script.log("Websocket data received : " +message);
+	var obsObj = JSON.parse(message);
+	if (obsObj.op == 0 && obsObj.d.authentication != null)
+	{
+		var mdp = "MonMDP" + obsObj.d.authentication.salt;
+		//script.log("mdp = " + mdp);
+		var Encode1 = util.toBase64(util.encodeSHA256(mdp));
+		//script.log("Encode1 = " + Encode1);
+		var Encode2 = util.toBase64(util.encodeSHA256(Encode1+obsObj.d.authentication.challenge));
+		//script.log("Encode2 = " + Encode2);
+		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "'+Encode2+'",     "eventSubscriptions": 33   } }');
+		
+	} 
+	else if (obsObj.op == 0) 
+	{
+		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "test1",     "eventSubscriptions": 33   } }');
+	}
 }
 
 function wsDataReceived(data)
@@ -50,7 +66,7 @@ function sendObsCommand(req, data) {
 	var send = {};
 	var para = {};
 	para["requestType"] = req;
-	para["requestId"] = "FromChataigne";
+	para["requestId"] = "prout";
 	para["requestData"] = data;
 
 /*!== undefined ? data : {}*/
@@ -238,5 +254,3 @@ function OBSSetTransitionDuration(duration) {
 	data["transitionDuration"] = duration;
 	sendObsCommand("SetCurrentSceneTransitionDuration", data);
 }
-
-
