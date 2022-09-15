@@ -399,6 +399,35 @@ function GetRecordDirectory(reqId) {
 	sendObsCommand("GetRecordDirectory", data, reqId);
 }
 
+/*Sources Requests Menu*/
+function GetSourceActive(reqId, sourceName) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	sendObsCommand("GetSourceActive", data, reqId);
+}
+
+function GetSourceScreenshot(reqId, sourceName, imageFormat, imageWidth, imageHeight, imageCompressionQuality) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["imageFormat"] = imageFormat;
+	data["imageWidth"] = imageWidth;
+	data["imageHeight"] = imageHeight;
+	data["imageCompressionQuality"] = imageCompressionQuality;
+	sendObsCommand("GetSourceScreenshot", data, reqId);
+}
+
+function SaveSourceScreenshot(reqId, sourceName, imageFormat, imageFilePath, imageWidth, imageHeight, imageCompressionQuality) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["imageFormat"] = imageFormat;
+	data["imageFilePath"] = imageFilePath;
+	data["imageWidth"] = imageWidth;
+	data["imageHeight"] = imageHeight;
+	data["imageCompressionQuality"] = imageCompressionQuality;
+	sendObsCommand("SaveSourceScreenshot", data, reqId);
+}
+
+/*Scene Items Requests Menu*/
 function GetSceneItemList(reqId, sceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;

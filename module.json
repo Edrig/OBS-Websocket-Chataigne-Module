@@ -462,7 +462,52 @@
             "request Id": { "type":"String"},
          }
       },
-
+	  
+      "GetSourceActive": {
+         "menu": "Sources Requests",
+         "callback": "GetSourceActive",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"sourceName": { "type":"String"},
+         }
+      },
+	  
+      "GetSourceScreenshot": {
+         "menu": "Sources Requests",
+         "callback": "GetSourceScreenshot",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"sourceName": { "type":"String"},
+			"imageFormat": { "type":"String"},
+			"?imageWidth": { "type":"Integer", "min":8, "max":4096},
+			"?imageHeight": { "type":"Integer", "min":8, "max":4096},
+			"?imageCompressionQuality": { "type":"Integer", "min":-1, "max":100, "default":-1},
+         }
+      },
+	  
+      "SaveSourceScreenshot": {
+         "menu": "Sources Requests",
+         "callback": "SaveSourceScreenshot",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"sourceName": { "type":"String"},
+			"imageFilePath": { "type":"String"},
+			"imageFormat": { "type":"Enum", "options": { 
+				"bmp":"bmp",
+				"jpeg":"jpeg",
+				"jpg":"jpg",
+				"pbm":"pbm",
+				"pgm":"pgm",
+				"png":"png",
+				"ppm":"ppm",
+				"xbm":"xbm",
+				"xpm":"xpm",				} },
+			"imageFormat": { "type":"String"},
+			"?imageWidth": { "type":"Integer", "min":8, "max":4096},
+			"?imageHeight": { "type":"Integer", "min":8, "max":4096},
+			"?imageCompressionQuality": { "type":"Integer", "min":-1, "max":100, "default":-1},
+         }
+      },
 
       "GetSceneItemList": {
          "menu": "Scene Items Requests",
