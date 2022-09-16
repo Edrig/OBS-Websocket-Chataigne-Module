@@ -2,7 +2,7 @@
    "name": "OBS Websocket",
    "type": "WebSocket Client",
    "path": "Software",
-   "version": "1.0.0",
+   "version": "2.0.0",
    "description": "OBS Websocket Module",
    "url": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
    "downloadURL": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module/archive/master.zip",
@@ -35,215 +35,6 @@
             }
          }
       },
-      "PlayMedia": {
-         "menu": "Media",
-         "callback": "OBSPlayMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "PauseMedia": {
-         "menu": "Media",
-         "callback": "OBSPauseMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "RestartMedia": {
-         "menu": "Media",
-         "callback": "OBSRestartMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "StopMedia": {
-         "menu": "Media",
-         "callback": "OBSStopMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "NextMedia": {
-         "menu": "Media",
-         "callback": "OBSNextMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "PreviousMedia": {
-         "menu": "Media",
-         "callback": "OBSPreviousMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetMediaTime": {
-         "menu": "Media",
-         "callback": "OBSSetMediaTime",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            },
-            "timestamp": {
-               "type": "Integer"
-            }
-         }
-      },
-      "ScrubMedia": {
-         "menu": "Media",
-         "callback": "OBSScrubMedia",
-         "parameters": {
-            "sourceName": {
-               "type": "String"
-            },
-            "timeOffset": {
-               "type": "Integer"
-            }
-         }
-      },
-
-      "SetMute": {
-         "menu": "Volume",
-         "callback": "OBSSetMute",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleMute": {
-         "menu": "Volume",
-         "callback": "OBSToggleMute",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "TakeSourceScreenshot": {
-         "menu": "Source",
-         "callback": "OBSTakeSourceScreenshot",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "RefreshBrowserSource": {
-         "menu": "",
-         "callback": "OBSRefreshBrowserSource",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "StartRecording": {
-         "menu": "Recording",
-         "callback": "OBSStartRecording",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "StopRecording": {
-         "menu": "Recording",
-         "callback": "OBSStopRecording",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "Toggle Pause Recording": {
-         "menu": "Recording",
-         "callback": "OBSPauseRecording",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "Toggle Resume Recording": {
-         "menu": "Recording",
-         "callback": "OBSToggleResumeRecording",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentProgramScene": {
-         "menu": "Scene",
-         "callback": "OBSSetCurrentScene",
-         "parameters": {
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetSceneTransitionOverride": {
-         "menu": "Transition",
-         "callback": "OBSSetSceneTransitionOverride",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "SetPreviewScene": {
-         "menu": "Scene",
-         "callback": "OBSSetPreviewScene",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentTransition": {
-         "menu": "Transition",
-         "callback": "OBSSetCurrentTransition",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "SetTransitionDuration": {
-         "menu": "Transition",
-         "callback": "OBSSetTransitionDuration",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-
-
-      
-
-
-
-
-
-
-
-
-
-
 
       "GetVersion": {
          "menu": "General Requests",
@@ -944,40 +735,101 @@
 			"?release": { "type":"Boolean", "default":true},
          }
       },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	  
+	   "GetSourceFilterList": {
+         "menu": "Scene Items Requests",
+         "callback": "GetSourceFilterList",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+         }
+      },
+	  
+	   "GetSourceFilterDefaultSettings": {
+         "menu": "Filters Requests",
+         "callback": "GetSourceFilterDefaultSettings",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "filterKind": { "type":"String"},
+         }
+      },
+	  
+	   "CreateSourceFilter": {
+         "menu": "Filters Requests",
+         "callback": "CreateSourceFilter",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"filterName": { "type":"String"},
+			"filterKind": { "type":"String"},
+			"?filterSettings": { "type":"String"},
+         }
+      },
+	  
+	   "RemoveSourceFilter": {
+         "menu": "Filters Requests",
+         "callback": "RemoveSourceFilter",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"filterName": { "type":"String"},
+         }
+      },
+	  
+	   "SetSourceFilterName": {
+         "menu": "Filters Requests",
+         "callback": "SetSourceFilterName",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"filterName": { "type":"String"},
+			"newFilterName": { "type":"String"},
+         }
+      },
+	  
+	   "GetSourceFilter": {
+         "menu": "Filters Requests",
+         "callback": "GetSourceFilter",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"newFilterName": { "type":"String"},
+         }
+      },
+	  
+	   "SetSourceFilterIndex": {
+         "menu": "Filters Requests",
+         "callback": "SetSourceFilterIndex",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"filterName": { "type":"String"},
+			"filterIndex": { "type":"Integer","min":0},
+         }
+      },
+	  
+	   "SetSourceFilterSettings": {
+         "menu": "Filters Requests",
+         "callback": "SetSourceFilterSettings",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"filterName": { "type":"String"},
+			"filterSettings": { "type":"Integer","min":0},
+			"overlay": { "type":"Boolean", "default":true},
+         }
+      },
+	  
+	   "SetSourceFilterEnabled": {
+         "menu": "Filters Requests",
+         "callback": "SetSourceFilterEnabled",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+			"filterName": { "type":"String"},
+			"filterEnabled": { "type":"Boolean"},
+         }
+      },
 
       "GetSceneItemList": {
          "menu": "Scene Items Requests",
@@ -1151,12 +1003,369 @@
 				"OBS_BLEND_DARKEN":"OBS_BLEND_DARKEN",  } }
          }
       },
+	  
+      "GetVirtualCamStatus": {
+         "menu": "Outputs Requests",
+         "callback": "GetVirtualCamStatus",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "ToggleVirtualCam": {
+         "menu": "Outputs Requests",
+         "callback": "ToggleVirtualCam",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StartVirtualCam": {
+         "menu": "Outputs Requests",
+         "callback": "StartVirtualCam",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StopVirtualCam": {
+         "menu": "Outputs Requests",
+         "callback": "StopVirtualCam",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "GetReplayBufferStatus": {
+         "menu": "Outputs Requests",
+         "callback": "GetReplayBufferStatus",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "ToggleReplayBuffer": {
+         "menu": "Outputs Requests",
+         "callback": "ToggleReplayBuffer",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StartReplayBuffer": {
+         "menu": "Outputs Requests",
+         "callback": "StartReplayBuffer",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StopReplayBuffer": {
+         "menu": "Outputs Requests",
+         "callback": "StopReplayBuffer",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "SaveReplayBuffer": {
+         "menu": "Outputs Requests",
+         "callback": "SaveReplayBuffer",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "GetLastReplayBufferReplay": {
+         "menu": "Outputs Requests",
+         "callback": "GetLastReplayBufferReplay",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "GetOutputList": {
+         "menu": "Outputs Requests",
+         "callback": "GetOutputList",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "GetOutputStatus": {
+         "menu": "Outputs Requests",
+         "callback": "GetOutputStatus",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"outputName": { "type":"String"},
+         }
+      },
+	  
+      "ToggleOutput": {
+         "menu": "Outputs Requests",
+         "callback": "ToggleOutput",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"outputName": { "type":"String"},
+         }
+      },
+	  
+      "StartOutput": {
+         "menu": "Outputs Requests",
+         "callback": "StartOutput",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"outputName": { "type":"String"},
+         }
+      },
 
+      "StopOutput": {
+         "menu": "Outputs Requests",
+         "callback": "StopOutput",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"outputName": { "type":"String"},
+         }
+      },
 	  
+      "GetOutputSettings": {
+         "menu": "Outputs Requests",
+         "callback": "GetOutputSettings",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"outputName": { "type":"String"},
+         }
+      },
 	  
+      "SetOutputSettings": {
+         "menu": "Outputs Requests",
+         "callback": "SetOutputSettings",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"outputName": { "type":"String"},
+			"outputSettings": { "type":"String"},
+         }
+      },
+	  
+      "GetStreamStatus": {
+         "menu": "Stream Requests",
+         "callback": "GetStreamStatus",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "ToggleStream": {
+         "menu": "Stream Requests",
+         "callback": "ToggleStream",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StartStream": {
+         "menu": "Stream Requests",
+         "callback": "StartStream",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StopStream": {
+         "menu": "Stream Requests",
+         "callback": "StopStream",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "SendStreamCaption": {
+         "menu": "Stream Requests",
+         "callback": "SendStreamCaption",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"captionText": { "type":"String"},
+         }
+      },
+	  
+      "GetRecordStatus": {
+         "menu": "Record Requests",
+         "callback": "GetRecordStatus",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "ToggleRecord": {
+         "menu": "Record Requests",
+         "callback": "ToggleRecord",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StartRecord": {
+         "menu": "Record Requests",
+         "callback": "StartRecord",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "StopRecord": {
+         "menu": "Record Requests",
+         "callback": "StopRecord",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "ToggleRecordPause": {
+         "menu": "Record Requests",
+         "callback": "ToggleRecordPause",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "PauseRecord": {
+         "menu": "Record Requests",
+         "callback": "PauseRecord",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "ResumeRecord": {
+         "menu": "Record Requests",
+         "callback": "ResumeRecord",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "GetMediaInputStatus": {
+         "menu": "Media Inputs Requests",
+         "callback": "GetMediaInputStatus",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+         }
+      },
+	  
+      "SetMediaInputCursor": {
+         "menu": "Media Inputs Requests",
+         "callback": "SetMediaInputCursor",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+			"mediaCursor": { "type":"Float", "min":0},
+         }
+      },
+	  
+      "OffsetMediaInputCursor": {
+         "menu": "Media Inputs Requests",
+         "callback": "OffsetMediaInputCursor",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+			"mediaCursorOffset": { "type":"Float"},
+         }
+      },
+	  
+      "TriggerMediaInputAction": {
+         "menu": "Media Inputs Requests",
+         "callback": "TriggerMediaInputAction",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+			"mediaAction": { "type":"Enum", "options": { 
+				"OBS_MEDIA_STATE_NONE":"OBS_MEDIA_STATE_NONE",
+				"OBS_MEDIA_STATE_PLAYING":"OBS_MEDIA_STATE_PLAYING",
+				"OBS_MEDIA_STATE_OPENING":"OBS_MEDIA_STATE_OPENING",
+				"OBS_MEDIA_STATE_BUFFERING":"OBS_MEDIA_STATE_BUFFERING",
+				"OBS_MEDIA_STATE_PAUSED":"OBS_MEDIA_STATE_PAUSED",
+				"OBS_MEDIA_STATE_STOPPED":"OBS_MEDIA_STATE_STOPPED",
+				"OBS_MEDIA_STATE_ENDED":"OBS_MEDIA_STATE_ENDED",
+				"OBS_MEDIA_STATE_ERROR":"OBS_MEDIA_STATE_ERROR",} }
+         }
+      },
+	  
+      "GetStudioModeEnabled": {
+         "menu": "UI Requests",
+         "callback": "GetStudioModeEnabled",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
 
+      "SetStudioModeEnabled": {
+         "menu": "UI Requests",
+         "callback": "SetStudioModeEnabled",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"studioModeEnabled": { "type":"Boolean"},
+         }
+      },
 	  
+      "OpenInputPropertiesDialog": {
+         "menu": "UI Requests",
+         "callback": "OpenInputPropertiesDialog",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+         }
+      },
 	  
+      "OpenInputFiltersDialog": {
+         "menu": "UI Requests",
+         "callback": "OpenInputFiltersDialog",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+         }
+      },
 	  
+      "OpenInputInteractDialog": {
+         "menu": "UI Requests",
+         "callback": "OpenInputInteractDialog",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"inputName": { "type":"String"},
+         }
+      },
+	  
+      "GetMonitorList": {
+         "menu": "UI Requests",
+         "callback": "GetMonitorList",
+         "parameters": {
+            "request Id": { "type":"String"},
+         }
+      },
+	  
+      "OpenVideoMixProjector": {
+         "menu": "UI Requests",
+         "callback": "OpenVideoMixProjector",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"videoMixType": { "type":"Enum", "options": { 
+				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PREVIEW":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PREVIEW",
+				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PROGRAM":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PROGRAM",
+				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW",} },
+			"?monitorIndex Id": { "type":"Integer"},
+			"?projectorGeometry Id": { "type":"String"},
+         }
+      },
+	  
+      "OpenSourceProjector": {
+         "menu": "UI Requests",
+         "callback": "OpenSourceProjector",
+         "parameters": {
+            "request Id": { "type":"String"},
+			"sourceName": { "type":"String"},
+			"?monitorIndex": { "type":"Integer"},
+			"?projectorGeometry": { "type":"String"},
+         }
+      },
    }
 }

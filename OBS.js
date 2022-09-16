@@ -79,169 +79,6 @@ function sendObsRawCommand(json) {
 	local.send(json);
 }
 
-function OBSPlayMedia(source) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY";
-	sendObsCommand("TriggerMediaInputAction", data);
-}
-
-function OBSPauseMedia(source) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE";
-	sendObsCommand("TriggerMediaInputAction", data);
-}
-
-function OBSRestartMedia(source) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART";
-	sendObsCommand("TriggerMediaInputAction", data);
-}
-
-function OBSStopMedia(source) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP";
-	sendObsCommand("TriggerMediaInputAction", data);
-}
-
-function OBSNextMedia(source) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT";
-	sendObsCommand("TriggerMediaInputAction", data);
-}
-
-function OBSPreviousMedia(source) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaAction"] = "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS";
-	sendObsCommand("TriggerMediaInputAction", data);
-}
-
-function OBSSetMediaTime(source, time) {
-	var data = {};
-	data["inputName"] = source;
-	data["mediaCursor"] = time;
-	sendObsCommand("SetMediaInputCursor", data);
-}
-
-/*to checked/to find*/
-function OBSGetMediaTime(source) {
-	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("GetMediaTime", data);
-}
-
-/*to checked/to find*/
-function OBSScrubMedia(source, time) {
-	var data = {};
-	data["sourceName"] = source;
-	data["timeOffset"] = time;
-	sendObsCommand("ScrubMedia", data);
-}
-
-/*to checked*/
-function OBSSetMute(source, val) {
-	var data = {};
-	data["inputName"] = source;
-	data["inputMuted"] = val;
-	sendObsCommand("SetInputMute", data);
-}
-
-function OBSToggleMute(source, val) {
-	var data = {};
-	data["inputName"] = source;
-	sendObsCommand("ToggleInputMute", data);
-}
-
-/*checked*/
-function OBSTakeSourceScreenshot(source, format, path) { // "png", "jpg", "jpeg" or "bmp", 
-	var data = {};
-	data["sourceName"] = source;
-	data["imageFormat"] = format;
-	data["imageFilePath"] = path;
-	sendObsCommand("SaveSourceScreenshot", data);
-}
-
-/*to checked/to find*/
-function OBSRefreshBrowserSource(source) {
-	var data = {};
-	data["sourceName"] = source;
-	sendObsCommand("RefreshBrowserSource", data);
-}
-
-function OBSSetCurrentProfile(name) {
-	var data = {};
-	data["profileName"] = name;
-	sendObsCommand("SetCurrentProfile", data);
-}
-
-function OBSStartRecording() {
-	var data = {};
-	sendObsCommand("StartRecord", data);
-}
-
-function OBSStopRecording() {
-	var data = {};
-	sendObsCommand("PauseRecord", data);
-}
-
-function OBSPauseRecording() {
-	var data = {};
-	sendObsCommand("ToggleRecordPause", data);
-}
-
-function OBSResumeRecording() {
-	var data = {};
-	sendObsCommand("ResumeRecord", data);
-}
-
-function OBSSetCurrentSceneCollection(name) {
-	var data = {};
-	data["sceneCollectionName"] = name;
-	sendObsCommand("SetCurrentSceneCollection", data);
-}
-
-function OBSSetCurrentScene(name) {
-	var data = {};
-	data["sceneName"] = name;
-	sendObsCommand("SetCurrentProgramScene", data);
-}
-
-function OBSSetSceneTransitionOverride(name, transitionName, transitionDuration) {
-	var data = {};
-	data["sceneName"] = name;
-	data["transitionName"] = transitionName;
-	data["transitionDuration"] = transitionDuration;
-	sendObsCommand("SetSceneSceneTransitionOverride", data);
-}
-
-function OBSSetPreviewScene(name) {
-	var data = {};
-	data["sceneName"] = name;
-	sendObsCommand("SetCurrentPreviewScene", data);
-}
-
-function OBSSetCurrentTransition(name) {
-	var data = {};
-	data["transitionName"] = name;
-	sendObsCommand("SetCurrentSceneTransition", data);
-}
-
-function OBSSetTransitionDuration(duration) {
-	var data = {};
-	data["transitionDuration"] = duration;
-	sendObsCommand("SetCurrentSceneTransitionDuration", data);
-}
-
-
-
-
-
-
 //---------------------------------------------------------------------------------
 /*General Requests Menu*/
 function GetVersion(reqId) {
@@ -732,30 +569,78 @@ function SetTBarPosition(reqId, position, release) {
 	sendObsCommand("SetTBarPosition", data, reqId);
 }
 
+//---------------------------------------------------------------------------------
+/*Filters Requests menu*/
+function GetSourceFilterList(reqId, sourceName) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	sendObsCommand("GetSourceFilterList", data, reqId);
+}
+
+function GetSourceFilterDefaultSettings(reqId, filterKind) {
+	var data = {};
+	data["filterKind"] = filterKind;
+	sendObsCommand("GetSourceFilterDefaultSettings", data, reqId);
+}
+
+function CreateSourceFilter(reqId, sourceName, filterName, filterKind, filterSettings) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	data["filterKind"] = filterKind;
+	data["filterSettings"] = filterSettings;
+	sendObsCommand("CreateSourceFilter", data, reqId);
+}
+
+function RemoveSourceFilter(reqId, sourceName, filterName) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	sendObsCommand("RemoveSourceFilter", data, reqId);
+}
+
+function SetSourceFilterName(reqId, sourceName, filterName, newFilterName) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	data["newFilterName"] = newFilterName;
+	sendObsCommand("SetSourceFilterName", data, reqId);
+}
+
+function GetSourceFilter(reqId, sourceName, filterName) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	sendObsCommand("GetSourceFilter", data, reqId);
+}
+
+function SetSourceFilterIndex(reqId, sourceName, filterName, filterIndex) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	data["filterIndex"] = filterIndex;
+	sendObsCommand("SetSourceFilterIndex", data, reqId);
+}
+
+function SetSourceFilterSettings(reqId, sourceName, filterName, filterSettings, overlay) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	data["filterSettings"] = filterSettings;
+	data["overlay"] = overlay;
+	sendObsCommand("SetSourceFilterSettings", data, reqId);
+}
 
 
+function SetSourceFilterEnabled(reqId, sourceName, filterName, filterEnabled) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	data["filterEnabled"] = filterEnabled;
+	sendObsCommand("SetSourceFilterEnabled", data, reqId);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//---------------------------------------------------------------------------------
 /*Scene Items Requests Menu*/
 function GetSceneItemList(reqId, sceneName) {
 	var data = {};
@@ -875,10 +760,244 @@ function SetSceneItemBlendMode(reqId, sceneName, sceneItemId,sceneItemBlendMode)
 	sendObsCommand("SetSceneItemBlendMode", data, reqId);
 }
 
+//---------------------------------------------------------------------------------
+/*Outputs Requests Menu*/
+function GetVirtualCamStatus(reqId) {
+	var data = {};
+	sendObsCommand("GetVirtualCamStatus", data, reqId);
+}
+
+function ToggleVirtualCam(reqId) {
+	var data = {};
+	sendObsCommand("ToggleVirtualCam", data, reqId);
+}
+
+function StartVirtualCam(reqId) {
+	var data = {};
+	sendObsCommand("StartVirtualCam", data, reqId);
+}
 
 
+function StopVirtualCam(reqId) {
+	var data = {};
+	sendObsCommand("StopVirtualCam", data, reqId);
+}
+
+function GetReplayBufferStatus(reqId) {
+	var data = {};
+	sendObsCommand("GetReplayBufferStatus", data, reqId);
+}
+
+function ToggleReplayBuffer(reqId) {
+	var data = {};
+	sendObsCommand("ToggleReplayBuffer", data, reqId);
+}
+
+function StartReplayBuffer(reqId) {
+	var data = {};
+	sendObsCommand("StartReplayBuffer", data, reqId);
+}
+
+function StopReplayBuffer(reqId) {
+	var data = {};
+	sendObsCommand("StopReplayBuffer", data, reqId);
+}
+
+function SaveReplayBuffer(reqId) {
+	var data = {};
+	sendObsCommand("SaveReplayBuffer", data, reqId);
+}
+
+function GetLastReplayBufferReplay(reqId) {
+	var data = {};
+	sendObsCommand("GetLastReplayBufferReplay", data, reqId);
+}
+
+function GetOutputList(reqId) {
+	var data = {};
+	sendObsCommand("GetOutputList", data, reqId);
+}
+
+function GetOutputStatus(reqId, outputName) {
+	var data = {};
+	data["outputName"] = outputName;
+	sendObsCommand("GetOutputStatus", data, reqId);
+}
+
+function ToggleOutput(reqId, outputName) {
+	var data = {};
+	data["outputName"] = outputName;
+	sendObsCommand("ToggleOutput", data, reqId);
+}
+
+function StartOutput(reqId, outputName) {
+	var data = {};
+	data["outputName"] = outputName;
+	sendObsCommand("StartOutput", data, reqId);
+}
+
+function StopOutput(reqId, outputName) {
+	var data = {};
+	data["outputName"] = outputName;
+	sendObsCommand("StopOutput", data, reqId);
+}
+
+function GetOutputSettings(reqId, outputName) {
+	var data = {};
+	data["outputName"] = outputName;
+	sendObsCommand("GetOutputSettings", data, reqId);
+}
+
+function SetOutputSettings(reqId, outputName, outputSettings) {
+	var data = {};
+	data["outputName"] = outputName;
+	data["outputSettings"] = outputSettings;
+	sendObsCommand("SetOutputSettings", data, reqId);
+}
+
+//---------------------------------------------------------------------------------
+/*Stream Requests Menu*/
+function GetStreamStatus(reqId) {
+	var data = {};
+	sendObsCommand("GetStreamStatus", data, reqId);
+}
+
+function ToggleStream(reqId) {
+	var data = {};
+	sendObsCommand("ToggleStream", data, reqId);
+}
 
 
+function StartStream(reqId) {
+	var data = {};
+	sendObsCommand("StartStream", data, reqId);
+}
 
+function StopStream(reqId) {
+	var data = {};
+	sendObsCommand("StopStream", data, reqId);
+}
 
+function SendStreamCaption(reqId, captionText) {
+	var data = {};
+	data["captionText"] = captionText;
+	sendObsCommand("SendStreamCaption", data, reqId);
+}
 
+//---------------------------------------------------------------------------------
+/*Record Requests Menu*/
+function GetRecordStatus(reqId) {
+	var data = {};
+	sendObsCommand("GetRecordStatus", data, reqId);
+}
+
+function ToggleRecord(reqId) {
+	var data = {};
+	sendObsCommand("ToggleRecord", data, reqId);
+}
+
+function StartRecord(reqId) {
+	var data = {};
+	sendObsCommand("StartRecord", data, reqId);
+}
+
+function StopRecord(reqId) {
+	var data = {};
+	sendObsCommand("StopRecord", data, reqId);
+}
+
+function ToggleRecordPause(reqId) {
+	var data = {};
+	sendObsCommand("ToggleRecordPause", data, reqId);
+}
+
+function PauseRecord(reqId) {
+	var data = {};
+	sendObsCommand("PauseRecord", data, reqId);
+}
+
+function ResumeRecord(reqId) {
+	var data = {};
+	sendObsCommand("ResumeRecord", data, reqId);
+}
+
+//---------------------------------------------------------------------------------
+/*Media Inputs Requests Menu*/
+function GetMediaInputStatus(reqId, inputName) {
+	var data = {};
+	data["inputName"] = inputName;
+	sendObsCommand("GetMediaInputStatus", data, reqId);
+}
+
+function SetMediaInputCursor(reqId, inputName, mediaCursor) {
+	var data = {};
+	data["inputName"] = inputName;
+	data["mediaCursor"] = mediaCursor;
+	sendObsCommand("SetMediaInputCursor", data, reqId);
+}
+
+function OffsetMediaInputCursor(reqId, inputName, mediaCursorOffset) {
+	var data = {};
+	data["inputName"] = inputName;
+	data["mediaCursorOffset"] = mediaCursorOffset;
+	sendObsCommand("OffsetMediaInputCursor", data, reqId);
+}
+
+function TriggerMediaInputAction(reqId, inputName, mediaAction) {
+	var data = {};
+	data["inputName"] = inputName;
+	data["mediaAction"] = mediaAction;
+	sendObsCommand("TriggerMediaInputAction", data, reqId);
+}
+
+//---------------------------------------------------------------------------------
+/*UI Requests Menu*/
+function GetStudioModeEnabled(reqId) {
+	var data = {};
+	sendObsCommand("GetStudioModeEnabled", data, reqId);
+}
+
+function SetStudioModeEnabled(reqId, studioModeEnabled) {
+	var data = {};
+	data["studioModeEnabled"] = studioModeEnabled;
+	sendObsCommand("SetStudioModeEnabled", data, reqId);
+}
+
+function OpenInputPropertiesDialog(reqId, inputName) {
+	var data = {};
+	data["inputName"] = inputName;
+	sendObsCommand("OpenInputPropertiesDialog", data, reqId);
+}
+
+function OpenInputFiltersDialog(reqId, inputName) {
+	var data = {};
+	data["inputName"] = inputName;
+	sendObsCommand("OpenInputFiltersDialog", data, reqId);
+}
+
+function OpenInputInteractDialog(reqId, inputName) {
+	var data = {};
+	data["inputName"] = inputName;
+	sendObsCommand("OpenInputInteractDialog", data, reqId);
+}
+
+function GetMonitorList(reqId) {
+	var data = {};
+	sendObsCommand("GetMonitorList", data, reqId);
+}
+
+function OpenVideoMixProjector(reqId, videoMixType, monitorIndex, projectorGeometry) {
+	var data = {};
+	data["videoMixType"] = videoMixType;
+	data["monitorIndex"] = monitorIndex;
+	data["projectorGeometry"] = projectorGeometry;
+	sendObsCommand("OpenVideoMixProjector", data, reqId);
+}
+
+function OpenSourceProjector(reqId, sourceName, monitorIndex, projectorGeometry) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["monitorIndex"] = monitorIndex;
+	data["projectorGeometry"] = projectorGeometry;
+	sendObsCommand("OpenSourceProjector", data, reqId);
+}
