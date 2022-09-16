@@ -856,7 +856,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sourceName": { "type":"String"},
-            "?searchOffset": { "type":"Integer", "min": -1},
+            "?searchOffset": { "type":"Integer", "min":-1},
          }
       },
 	  

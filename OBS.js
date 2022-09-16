@@ -55,7 +55,6 @@ function wsMessageReceived(message) {
 		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "test1",     "eventSubscriptions": 33   } }');
 	}
 }
-
 function wsDataReceived(data) {
 	script.log("Websocket data received : " + data);
 }
@@ -96,12 +95,12 @@ function BroadcastCustomEvent(reqId) {
 	sendObsCommand("BroadcastCustomEvent", data, reqId);
 }
 
-function BroadcastCustomEvent(reqId, vendorName, requestType, requestData) {
+function CallVendorRequest(reqId, vendorName, requestType, requestData) {
 	var data = {};
 	data["vendorName"] = vendorName;
 	data["requestType"] = requestType;
-	data["requestData"] = requestData;
-	sendObsCommand("BroadcastCustomEvent", data, reqId);
+	data["requestData"] = JSON.parse(requestData);
+	sendObsCommand("CallVendorRequest", data, reqId);
 }
 
 function GetHotkeyList(reqId) {
@@ -119,9 +118,9 @@ function TriggerHotkeyByKeySequence(reqId, keyId, shift, control, alt, command) 
 	var data = {};
 	data["keyId"] = keyId;
 	data["keyModifiers"]["shift"] = shift;
-	data["hotkeyName"]["control"] = control;
-	data["hotkeyName"]["alt"] = alt;
-	data["hotkeyName"]["command"] = command;
+	data["keyModifiers"]["control"] = control;
+	data["keyModifiers"]["alt"] = alt;
+	data["keyModifiers"]["command"] = command;
 	sendObsCommand("TriggerHotkeyByKeySequence", data, reqId);
 }
 
@@ -228,7 +227,7 @@ function GetStreamServiceSettings(reqId) {
 function SetStreamServiceSettings(reqId, streamServiceType, streamServiceSettings) {
 	var data = {};
 	data["streamServiceType"] = streamServiceType;
-	data["streamServiceSettings"] = streamServiceSettings;
+	data["streamServiceSettings"] = JSON.parse(streamServiceSettings);
 	sendObsCommand("SetStreamServiceSettings", data, reqId);
 }
 
@@ -363,7 +362,7 @@ function CreateInput(reqId, sceneName, inputName, inputKind, inputSettings, scen
 	data["sceneName"] = sceneName;
 	data["inputName"] = inputName;
 	data["inputKind"] = inputKind;
-	data["inputSettings"] = inputSettings;
+	data["inputSettings"] = JSON.parse(inputSettings);
 	data["sceneItemEnabled"] = sceneItemEnabled;
 	sendObsCommand("CreateInput", data, reqId);
 }
@@ -396,7 +395,7 @@ function GetInputSettings(reqId, inputName) {
 function SetInputSettings(reqId, inputName, inputSettings, overlay) {
 	var data = {};
 	data["inputName"] = inputName;
-	data["inputSettings"] = inputSettings;
+	data["inputSettings"] = JSON.parse(inputSettings);
 	data["overlay"] = overlay;
 	sendObsCommand("SetInputSettings", data, reqId);
 }
@@ -487,7 +486,7 @@ function GetInputAudioTracks(reqId, inputName) {
 function SetInputAudioTracks(reqId, inputName, inputAudioTracks) {
 	var data = {};
 	data["inputName"] = inputName;
-	data["inputAudioTracks"] = inputAudioTracks;
+	data["inputAudioTracks"] = JSON.parse(inputAudioTracks);
 	sendObsCommand("SetInputAudioTracks", data, reqId);
 }
 
@@ -546,7 +545,7 @@ function SetCurrentSceneTransitionDuration(reqId, transitionDuration) {
 
 function SetCurrentSceneTransitionSettings(reqId, transitionSettings, overlay) {
 	var data = {};
-	data["transitionSettings"] = transitionSettings;
+	data["transitionSettings"] = JSON.parse(transitionSettings);
 	data["overlay"] = overlay;
 	sendObsCommand("SetCurrentSceneTransitionSettings", data, reqId);
 }
@@ -588,7 +587,7 @@ function CreateSourceFilter(reqId, sourceName, filterName, filterKind, filterSet
 	data["sourceName"] = sourceName;
 	data["filterName"] = filterName;
 	data["filterKind"] = filterKind;
-	data["filterSettings"] = filterSettings;
+	data["filterSettings"] = JSON.parse(filterSettings);
 	sendObsCommand("CreateSourceFilter", data, reqId);
 }
 
@@ -626,7 +625,7 @@ function SetSourceFilterSettings(reqId, sourceName, filterName, filterSettings, 
 	var data = {};
 	data["sourceName"] = sourceName;
 	data["filterName"] = filterName;
-	data["filterSettings"] = filterSettings;
+	data["filterSettings"] = JSON.parse(filterSettings);
 	data["overlay"] = overlay;
 	sendObsCommand("SetSourceFilterSettings", data, reqId);
 }
@@ -696,7 +695,7 @@ function SetSceneItemTransform(reqId, sceneName, sceneItemId,sceneItemTransform)
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
-	data["sceneItemTransform"] = sceneItemTransform;
+	data["sceneItemTransform"] = JSON.parse("{"+sceneItemTransform+"}");
 	sendObsCommand("SetSceneItemTransform", data, reqId);
 }
 
@@ -851,7 +850,7 @@ function GetOutputSettings(reqId, outputName) {
 function SetOutputSettings(reqId, outputName, outputSettings) {
 	var data = {};
 	data["outputName"] = outputName;
-	data["outputSettings"] = outputSettings;
+	data["outputSettings"] = JSON.parse(outputSettings);
 	sendObsCommand("SetOutputSettings", data, reqId);
 }
 
