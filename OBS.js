@@ -242,7 +242,7 @@ function OBSSetTransitionDuration(duration) {
 
 
 
-//------------------------------------------------
+//---------------------------------------------------------------------------------
 /*General Requests Menu*/
 function GetVersion(reqId) {
 	var data = {};
@@ -288,6 +288,7 @@ function TriggerHotkeyByKeySequence(reqId, keyId, shift, control, alt, command) 
 	sendObsCommand("TriggerHotkeyByKeySequence", data, reqId);
 }
 
+//---------------------------------------------------------------------------------
 /*Config requests Menu*/
 function Sleep(reqId, sleepMillis, sleepFrames) {
 	var data = {};
@@ -399,6 +400,7 @@ function GetRecordDirectory(reqId) {
 	sendObsCommand("GetRecordDirectory", data, reqId);
 }
 
+//---------------------------------------------------------------------------------
 /*Sources Requests Menu*/
 function GetSourceActive(reqId, sourceName) {
 	var data = {};
@@ -427,126 +429,81 @@ function SaveSourceScreenshot(reqId, sourceName, imageFormat, imageFilePath, ima
 	sendObsCommand("SaveSourceScreenshot", data, reqId);
 }
 
-/*Scene Items Requests Menu*/
-function GetSceneItemList(reqId, sceneName) {
+//---------------------------------------------------------------------------------
+/*Scenes Requests menu*/
+function GetSceneList(reqId, currentProgramSceneName, currentPreviewSceneName, scenes) {
 	var data = {};
-	data["sceneName"] = sceneName;
-	sendObsCommand("GetSceneItemList", data, reqId);
+	data["currentProgramSceneName"] = currentProgramSceneName;
+	data["currentPreviewSceneName"] = currentPreviewSceneName;
+	data["scenes"] = scenes;
+	sendObsCommand("GetSceneList", data, reqId);
 }
 
-function GetGroupSceneItemList(reqId, sceneName) {
+function GetGroupList(reqId, groups, currentPreviewSceneName, scenes) {
 	var data = {};
-	data["sceneName"] = sceneName;
-	sendObsCommand("GetGroupSceneItemList", data, reqId);
+	data["groups"] = groups;
+	sendObsCommand("GetGroupList", data, reqId);
 }
 
-function GetSceneItemId(reqId, sceneName, sourceName, searchOffset) {
+function GetCurrentProgramScene(reqId, currentProgramSceneName) {
 	var data = {};
-	data["sceneName"] = sceneName;
-	data["sourceName"] = sourceName;
-	data["searchOffset"] = searchOffset;
-	sendObsCommand("GetSceneItemId", data, reqId);
+	data["currentProgramSceneName"] = currentProgramSceneName;
+	sendObsCommand("GetCurrentProgramScene", data, reqId);
 }
 
-function CreateSceneItem(reqId, sceneName, sourceName, sceneItemEnabled) {
+function SetCurrentProgramScene(reqId, sceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sourceName"] = sourceName;
-	data["sceneItemEnabled"] = sceneItemEnabled;
-	sendObsCommand("CreateSceneItem", data, reqId);
+	sendObsCommand("SetCurrentProgramScene", data, reqId);
 }
 
-function RemoveSceneItem(reqId, sceneName, sceneItemId) {
+function GetCurrentPreviewScene(reqId, currentPreviewSceneName) {
+	var data = {};
+	data["currentPreviewSceneName"] = currentPreviewSceneName;
+	sendObsCommand("GetCurrentPreviewScene", data, reqId);
+}
+
+function SetCurrentPreviewScene(reqId, sceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	sendObsCommand("RemoveSceneItem", data, reqId);
+	sendObsCommand("SetCurrentPreviewScene", data, reqId);
 }
 
-function DuplicateSceneItem(reqId, sceneName, destinationSceneName) {
+function CreateScene(reqId, sceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sceneId"] = sceneId;
-	data["destinationSceneName"] = destinationSceneName;
-	sendObsCommand("DuplicateSceneItem", data, reqId);
+	sendObsCommand("CreateScene", data, reqId);
 }
 
-function GetSceneItemTransform(reqId, sceneName, sceneItemId) {
+function RemoveScene(reqId, sceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	sendObsCommand("GetSceneItemTransform", data, reqId);
+	sendObsCommand("RemoveScene", data, reqId);
 }
 
-function SetSceneItemTransform(reqId, sceneName, sceneItemId,sceneItemTransform) {
+function SetSceneName(reqId, sceneName, newSceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	data["sceneItemTransform"] = sceneItemTransform;
-	sendObsCommand("SetSceneItemTransform", data, reqId);
+	data["newSceneName"] = newSceneName;
+	sendObsCommand("SetSceneName", data, reqId);
 }
 
-function GetSceneItemEnabled(reqId, sceneName, sceneItemId) {
+function GetSceneSceneTransitionOverride(reqId, sceneName) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	sendObsCommand("GetSceneItemEnabled", data, reqId);
+	sendObsCommand("GetSceneSceneTransitionOverride", data, reqId);
 }
 
-function SetSceneItemEnabled(reqId, sceneName, sceneItemId,sceneItemEnabled) {
+function SetSceneSceneTransitionOverride(reqId, sceneName, transitionName,transitionDuration) {
 	var data = {};
 	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	data["sceneItemEnabled"] = sceneItemEnabled;
-	sendObsCommand("SetSceneItemEnabled", data, reqId);
+	data["transitionName"] = transitionName;
+	data["transitionDuration"] = transitionDuration;
+	sendObsCommand("SetSceneSceneTransitionOverride", data, reqId);
 }
 
-function GetSceneItemLocked(reqId, sceneName, sceneItemId) {
-	var data = {};
-	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	sendObsCommand("GetSceneItemLocked", data, reqId);
-}
-
-function SetSceneItemLocked(reqId, sceneName, sceneItemId,sceneItemLocked) {
-	var data = {};
-	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	data["sceneItemLocked"] = sceneItemLocked;
-	sendObsCommand("SetSceneItemLocked", data, reqId);
-}
-
-function GetSceneItemIndex(reqId, sceneName, sceneItemId) {
-	var data = {};
-	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	sendObsCommand("GetSceneItemIndex", data, reqId);
-}
-
-function SetSceneItemIndex(reqId, sceneName, sceneItemId,sceneItemIndex) {
-	var data = {};
-	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	data["sceneItemIndex"] = sceneItemIndex;
-	sendObsCommand("SetSceneItemIndex", data, reqId);
-}
-
-function GetSceneItemBlendMode(reqId, sceneName, sceneItemId) {
-	var data = {};
-	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	sendObsCommand("GetSceneItemBlendMode", data, reqId);
-}
-
-function SetSceneItemBlendMode(reqId, sceneName, sceneItemId,sceneItemBlendMode) {
-	var data = {};
-	data["sceneName"] = sceneName;
-	data["sceneItemId"] = sceneItemId;
-	data["sceneItemBlendMode"] = sceneItemBlendMode;
-	sendObsCommand("SetSceneItemBlendMode", data, reqId);
-}
-
-/*Inputs Requests*/
+//---------------------------------------------------------------------------------
+/*Inputs Requests menu*/
 function GetInputList(reqId, inputKind) {
 	var data = {};
 	data["inputKind"] = inputKind;
@@ -710,3 +667,218 @@ function PressInputPropertiesButton(reqId, inputName, propertyName) {
 	data["propertyName"] = propertyName;
 	sendObsCommand("PressInputPropertiesButton", data, reqId);
 }
+
+//---------------------------------------------------------------------------------
+/*Transitions Requests menu*/
+function GetTransitionKindList(reqId, transitionKinds) {
+	var data = {};
+	data["transitionKinds"] = transitionKinds;
+	sendObsCommand("GetTransitionKindList", data, reqId);
+}
+
+function GetSceneTransitionList(reqId, currentSceneTransitionName, currentSceneTransitionKind, transitions) {
+	var data = {};
+	data["currentSceneTransitionName"] = currentSceneTransitionName;
+	data["currentSceneTransitionKind"] = currentSceneTransitionKind;
+	data["transitions"] = transitions;
+	sendObsCommand("GetSceneTransitionList", data, reqId);
+}
+
+function GetCurrentSceneTransition(reqId, transitionName, transitionKind, transitionFixed, transitionDuration, transitionConfigurable, transitionSettings) {
+	var data = {};
+	data["transitionName"] = transitionName;
+	data["transitionKind"] = transitionKind;
+	data["transitionFixed"] = transitionFixed;
+	data["transitionDuration"] = transitionDuration;
+	data["transitionConfigurable"] = transitionConfigurable;
+	data["transitionSettings"] = transitionSettings;
+	sendObsCommand("GetCurrentSceneTransition", data, reqId);
+}
+
+function SetCurrentSceneTransition(reqId, transitionName) {
+	var data = {};
+	data["transitionName"] = transitionName;
+	sendObsCommand("SetCurrentSceneTransition", data, reqId);
+}
+
+function SetCurrentSceneTransitionDuration(reqId, transitionDuration) {
+	var data = {};
+	data["transitionDuration"] = transitionDuration;
+	sendObsCommand("SetCurrentSceneTransitionDuration", data, reqId);
+}
+
+function SetCurrentSceneTransitionSettings(reqId, transitionSettings, overlay) {
+	var data = {};
+	data["transitionSettings"] = transitionSettings;
+	data["overlay"] = overlay;
+	sendObsCommand("SetCurrentSceneTransitionSettings", data, reqId);
+}
+
+function GetCurrentSceneTransitionCursor(reqId, transitionCursor) {
+	var data = {};
+	data["transitionCursor"] = transitionCursor;
+	sendObsCommand("GetCurrentSceneTransitionCursor", data, reqId);
+}
+
+function TriggerStudioModeTransition(reqId) {
+	var data = {};
+	sendObsCommand("TriggerStudioModeTransition", data, reqId);
+}
+
+function SetTBarPosition(reqId, position, release) {
+	var data = {};
+	data["position"] = position;
+	data["release"] = release;
+	sendObsCommand("SetTBarPosition", data, reqId);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Scene Items Requests Menu*/
+function GetSceneItemList(reqId, sceneName) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	sendObsCommand("GetSceneItemList", data, reqId);
+}
+
+function GetGroupSceneItemList(reqId, sceneName) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	sendObsCommand("GetGroupSceneItemList", data, reqId);
+}
+
+function GetSceneItemId(reqId, sceneName, sourceName, searchOffset) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sourceName"] = sourceName;
+	data["searchOffset"] = searchOffset;
+	sendObsCommand("GetSceneItemId", data, reqId);
+}
+
+function CreateSceneItem(reqId, sceneName, sourceName, sceneItemEnabled) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sourceName"] = sourceName;
+	data["sceneItemEnabled"] = sceneItemEnabled;
+	sendObsCommand("CreateSceneItem", data, reqId);
+}
+
+function RemoveSceneItem(reqId, sceneName, sceneItemId) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	sendObsCommand("RemoveSceneItem", data, reqId);
+}
+
+function DuplicateSceneItem(reqId, sceneName, destinationSceneName) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneId"] = sceneId;
+	data["destinationSceneName"] = destinationSceneName;
+	sendObsCommand("DuplicateSceneItem", data, reqId);
+}
+
+function GetSceneItemTransform(reqId, sceneName, sceneItemId) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	sendObsCommand("GetSceneItemTransform", data, reqId);
+}
+
+function SetSceneItemTransform(reqId, sceneName, sceneItemId,sceneItemTransform) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	data["sceneItemTransform"] = sceneItemTransform;
+	sendObsCommand("SetSceneItemTransform", data, reqId);
+}
+
+function GetSceneItemEnabled(reqId, sceneName, sceneItemId) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	sendObsCommand("GetSceneItemEnabled", data, reqId);
+}
+
+function SetSceneItemEnabled(reqId, sceneName, sceneItemId,sceneItemEnabled) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	data["sceneItemEnabled"] = sceneItemEnabled;
+	sendObsCommand("SetSceneItemEnabled", data, reqId);
+}
+
+function GetSceneItemLocked(reqId, sceneName, sceneItemId) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	sendObsCommand("GetSceneItemLocked", data, reqId);
+}
+
+function SetSceneItemLocked(reqId, sceneName, sceneItemId,sceneItemLocked) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	data["sceneItemLocked"] = sceneItemLocked;
+	sendObsCommand("SetSceneItemLocked", data, reqId);
+}
+
+function GetSceneItemIndex(reqId, sceneName, sceneItemId) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	sendObsCommand("GetSceneItemIndex", data, reqId);
+}
+
+function SetSceneItemIndex(reqId, sceneName, sceneItemId,sceneItemIndex) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	data["sceneItemIndex"] = sceneItemIndex;
+	sendObsCommand("SetSceneItemIndex", data, reqId);
+}
+
+function GetSceneItemBlendMode(reqId, sceneName, sceneItemId) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	sendObsCommand("GetSceneItemBlendMode", data, reqId);
+}
+
+function SetSceneItemBlendMode(reqId, sceneName, sceneItemId,sceneItemBlendMode) {
+	var data = {};
+	data["sceneName"] = sceneName;
+	data["sceneItemId"] = sceneItemId;
+	data["sceneItemBlendMode"] = sceneItemBlendMode;
+	sendObsCommand("SetSceneItemBlendMode", data, reqId);
+}
+
+
+
+
+
+
+
+
