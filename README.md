@@ -1,7 +1,7 @@
 # OBS-Websocket-Chataigne-Module
 A simple module to use OBS Websocket V5 with the Chataigne Software
 To know all parameters for your requests, see protocol.md of OBS-Websocket at this link : 
- <a href="https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests" target="_blank">Protocol.md OSB_Websocket</a> 
+ <a href="https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests" target="blank">Protocol.md OSB_Websocket</a> 
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
