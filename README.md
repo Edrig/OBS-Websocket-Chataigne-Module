@@ -5,16 +5,6 @@ To know all parameters for your requests, see protocol.md of OBS-Websocket at th
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
-<li><a href="#Prerequisites">Getting Started</a>
-  <ul>
-    <li><a href="#Chataigne">Chataigne</a></li>
-    <li><a href="#obs-websocket">OBS-websocket</a></li>
-  </ul>
- </li>
- <li><a href="#Contributing">Contributing</a></li>
- <li><a href="#contact">Contact</a></li>
- <li><a href="#acknowledgments">Acknowledgments</a></li>
-
 - [Prerequisites](#Prerequisites)
   - [Chataigne](#Chataigne)
   - [OBS-websocket](#OBS-websocket)
