@@ -1,33 +1,37 @@
-/* ********** WEBSOCKET  MODULE SPECIFIC SCRIPTING ********************* */
-/*
-
-Streaming Modules (i.e. UDP and Serial Module) have specific methods that can be used to handle receiving and sendin data over the connection.
-With streaming modules, there are 2 ways of sending data : either as a UTF-8 String or as separate bytes
-
-local.sendBytes(30,210,46,255,10); //This will send all the bytes passed in as they are
-
-*/
-
-/*
-You can intercept all the received data from this module with the method dataReceived(data).
-Depending on the Protocol you chose, the nature of the data passed in this function will be different.
-*/
-
-/*function dataReceived(data)
+/* ***************** WEBSOCKET  MODULE CONNEXION *************************** */
+function parseHex(str)
 {
-	//If mode is "Lines", you can expect data to be a single line String
-	script.log("Data received : " +data);
-	
-	//If mode is anything else, you can expect data to be an array of bytes
-	script.log("Bytes received : "+data.length);
-	for(var i=0; i < data.length; i++)
-	{
-		script.log(" > " + data[i]);
+    var result = [];
+    for(var i=0;i<str.length;i+=2)
+    {
+        var n = parseInt("0x"+str.substring(i,i+2));
+        result.push(n);
+    }
+
+    return result;
+}
+//local.parameters.eventSub_Int.get()
+function wsMessageReceived(message) {
+	script.log("Websocket data received : " + message);
+	var obsObj = JSON.parse(message);
+	var eventSub = local.parameters.eventSub_Int.get();
+	script.log("eventSub = " + eventSub);
+	if (obsObj.op == 0 && obsObj.d.authentication != null) {
+		var mdp = local.parameters.password.get() + obsObj.d.authentication.salt;
+		script.log("mdp = " + mdp); 
+		var Encode1 = util.toBase64(parseHex(util.encodeSHA256(mdp)));
+		script.log("Encode1 = " + Encode1);
+		var Encode2 = util.toBase64(parseHex(util.encodeSHA256(Encode1 + obsObj.d.authentication.challenge)));
+		script.log("Encode2 = " + Encode2);
+		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": '+eventSub+', "rpcVersion": 1}, "op": 1}');
 	}
-}*/
-
-
-
+	else if (obsObj.op == 0) {
+		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "Chataigne",     "eventSubscriptions": '+eventSub+'   } }');
+	}
+}
+function wsDataReceived(data) {
+	script.log("Websocket data received : " + data);
+}
 
 /* ********** STREAMING MODULE (UDP, TCP, SERIAL, WEBSOCKET) SPECIFIC SCRIPTING ********************* */
 /*
@@ -36,29 +40,10 @@ Websoskets modules can be used as standard Streaming Module and use the dataRece
 but you can also intercept messages and data directly from the streaming, before it is processed, using specific 
 event callbacks below
 */
-function wsMessageReceived(message) {
-	script.log("Websocket data received : " + message);
-	var obsObj = JSON.parse(message);
-	if (obsObj.op == 0 && obsObj.d.authentication != null) {
-		var mdp = "7TUBogT5FArWktZz" + obsObj.d.authentication.salt;
-		script.log("mdp = " + mdp);
-		var Encode1 = util.toBase64(util.encodeSHA256(mdp));
-		script.log("Encode1 = " + Encode1);
-		var Encode2 = util.toBase64(util.encodeSHA256(Encode1 + obsObj.d.authentication.challenge));
-		script.log("Encode2 = " + Encode2);
-		
-		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": 1048655, "rpcVersion": 1}, "op": 1}');
-		
 
-	}
-	else if (obsObj.op == 0) {
-		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "test1",     "eventSubscriptions": 33   } }');
-	}
-}
-function wsDataReceived(data) {
-	script.log("Websocket data received : " + data);
-}
 
+//---------------------------------------------------------------------------------
+/*send requests*/
 function sendObsCommand(req, data, reqId) {
 	var send = {};
 	var para = {};
@@ -695,7 +680,7 @@ function SetSceneItemTransform(reqId, sceneName, sceneItemId,sceneItemTransform)
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
-	data["sceneItemTransform"] = JSON.parse("{"+sceneItemTransform+"}");
+	data["sceneItemTransform"] = JSON.parse(sceneItemTransform);
 	sendObsCommand("SetSceneItemTransform", data, reqId);
 }
 

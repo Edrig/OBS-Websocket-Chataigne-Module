@@ -10,8 +10,10 @@
    "hasOutput": true,
    "hideDefaultCommands": true,
    "parameters": {
-      "eventSub Int": {
-         "type": "Integer"
+      "eventSub_Int": {
+         "type": "Integer",
+		 "default":33,
+		 "min":0,
       },
       "password": {
          "type": "String"
@@ -20,7 +22,7 @@
    "defaults": {
       "Protocol": "Lines",
       "autoAdd": false,
-      "serverPath": "127.0.0.1:4455"
+      "serverPath": "127.0.0.1:4455",
    },
    "scripts": [
       "OBS.js"
@@ -107,7 +109,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sleepMillis":{ "type":"Integer", "min":0, "max":50000 },
-            "sleepFrames":{ "type":"Integer", "min":0, "max":10000 }
+            "sleepFrames":{ "type":"Integer", "min":0, "max":10000}
          }
       },
 
