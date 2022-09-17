@@ -13,10 +13,7 @@ link :  <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chat
         <li><a href="#obs-websocket">obs-websocket</a></li>
       </ul>
     </li>
-
-
     <li><a href="#Contributing">Contributing</a></li>
-
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
