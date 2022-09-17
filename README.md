@@ -42,15 +42,18 @@ Don't forget to give the project a star! Thanks again!
 <!-- Contact -->
 ## Contact
 
-Tainalo2: 	GitHub - https://github.com/Edrig
-			Twitch - https://www.twitch.tv/tainalo2
-			YouTube - https://www.youtube.com/channel/UC2MYhnsKCZJs3B3wROu1B8w
-			
-Tainalo2: 	GitHub - https://github.com/DrMicka
-			Twitch - https://www.twitch.tv/dr_micka
-			YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA
+<b>Tainalo2</b>:</br> 	
+-GitHub - https://github.com/Edrig
+-Twitch - https://www.twitch.tv/tainalo2
+-YouTube - https://www.youtube.com/channel/UC2MYhnsKCZJs3B3wROu1B8w
 
-Edrig: GitHub - https://github.com/Edrig
+<b>Dr_Micka</b>:</br> 	
+-GitHub - https://github.com/DrMicka
+-Twitch - https://www.twitch.tv/dr_micka
+-YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA
+
+<b>Edrig</b>:</br> 	
+-GitHub - https://github.com/Edrig
 
 Project Link: [https://github.com/Edrig/OBS-Websocket-Chataigne-Module/tree/V5-dev](https://github.com/Edrig/OBS-Websocket-Chataigne-Module/tree/V5-dev)
 
