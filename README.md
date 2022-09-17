@@ -8,12 +8,20 @@ To know all parameters for your requests, see protocol.md of OBS-Websocket at th
 <li><a href="#Prerequisites">Getting Started</a>
   <ul>
     <li><a href="#Chataigne">Chataigne</a></li>
-    <li><a href="#obs-websocket">obs-websocket</a></li>
+    <li><a href="#obs-websocket">OBS-websocket</a></li>
   </ul>
  </li>
  <li><a href="#Contributing">Contributing</a></li>
  <li><a href="#contact">Contact</a></li>
  <li><a href="#acknowledgments">Acknowledgments</a></li>
+
+- [Prerequisites](#Prerequisites)
+  - [Chataigne](#Chataigne)
+  - [OBS-websocket](#OBS-websocket)
+- [Contributing](#Contributing)
+- [Contact](#Contact)
+- [Acknowledgments](#Acknowledgments)
+
 
 <!-- Prerequisites -->
 ## Prerequisites
@@ -25,7 +33,7 @@ GitHub: <a href="https://github.com/benkuper/Chataigne" target="_blank">Chataign
 Website: <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne website</a><br />
 Resum: Chataigne is made with one goal in mind : create a common tool for artists, technicians and developers who wish to use technology and synchronize softwares for shows, interactive installations or prototyping. It aims to be as simple as possible for basic interactions, but can be easily extended to create complex interactions.<br />
 
-### obs-websocket
+### OBS-websocket
 Compatible version with module: obs-websocket 5 or more<br />
 
 <!-- Contributing -->
