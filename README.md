@@ -17,11 +17,11 @@ To know all parameters for your requests, see protocol.md of OBS-Websocket at th
 ## Prerequisites
 
 ### Chataigne
-Compatible version with module: 1.9.8b3 or more<br />
-Creator: Benjamin Kuperberg<br />
-GitHub: <a href="https://github.com/benkuper/Chataigne" target="_blank">Chataigne GitHub</a><br />
-Website: <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne website</a><br />
-Resum: Chataigne is made with one goal in mind : create a common tool for artists, technicians and developers who wish to use technology and synchronize softwares for shows, interactive installations or prototyping. It aims to be as simple as possible for basic interactions, but can be easily extended to create complex interactions.<br />
+<b>Compatible version with module</b>: 1.9.8b3 or more<br />
+<b>Creator</b>: Benjamin Kuperberg<br />
+<b>GitHub</b>: <a href="https://github.com/benkuper/Chataigne" target="_blank">Chataigne GitHub</a><br />
+<b>Website</b>: <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne website</a><br />
+<b>Resum</b>: Chataigne is made with one goal in mind : create a common tool for artists, technicians and developers who wish to use technology and synchronize softwares for shows, interactive installations or prototyping. It aims to be as simple as possible for basic interactions, but can be easily extended to create complex interactions.<br />
 
 ### OBS-websocket
 Compatible version with module: obs-websocket 5 or more<br />
@@ -43,19 +43,19 @@ Don't forget to give the project a star! Thanks again!
 ## Contact
 
 <b>Tainalo2</b>:</br> 	
--GitHub - https://github.com/Edrig
--Twitch - https://www.twitch.tv/tainalo2
--YouTube - https://www.youtube.com/channel/UC2MYhnsKCZJs3B3wROu1B8w
+-GitHub - https://github.com/Edrig</br>
+-Twitch - https://www.twitch.tv/tainalo2</br>
+-YouTube - https://www.youtube.com/channel/UC2MYhnsKCZJs3B3wROu1B8w</br>
 
 <b>Dr_Micka</b>:</br> 	
--GitHub - https://github.com/DrMicka
--Twitch - https://www.twitch.tv/dr_micka
--YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA
+-GitHub - https://github.com/DrMicka</br>
+-Twitch - https://www.twitch.tv/dr_micka</br>
+-YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA</br>
 
 <b>Edrig</b>:</br> 	
 -GitHub - https://github.com/Edrig
 
-Project Link: [https://github.com/Edrig/OBS-Websocket-Chataigne-Module/tree/V5-dev](https://github.com/Edrig/OBS-Websocket-Chataigne-Module/tree/V5-dev)
+<b>Project Link</b>: [https://github.com/Edrig/OBS-Websocket-Chataigne-Module/tree/V5-dev](https://github.com/Edrig/OBS-Websocket-Chataigne-Module/tree/V5-dev)
 
 <!-- Acknowledgments -->
 ## Acknowledgments
