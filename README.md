@@ -4,20 +4,16 @@ A simple module to use OBS Websocket V5 with the Chataigne Software
 link :  <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne Software </a> By Benjamin Kuperberg
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#Prerequisites">Getting Started</a>
-      <ul>
-        <li><a href="#Chataigne">Chataigne</a></li>
-        <li><a href="#obs-websocket">obs-websocket</a></li>
-      </ul>
-    </li>
-    <li><a href="#Contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
+## Table of Contents
+<li><a href="#Prerequisites">Getting Started</a>
+  <ul>
+    <li><a href="#Chataigne">Chataigne</a></li>
+    <li><a href="#obs-websocket">obs-websocket</a></li>
+  </ul>
+ </li>
+ <li><a href="#Contributing">Contributing</a></li>
+ <li><a href="#contact">Contact</a></li>
+ <li><a href="#acknowledgments">Acknowledgments</a></li>
 
 <!-- Prerequisites -->
 ## Prerequisites
