@@ -19,7 +19,7 @@ To know all parameters for your requests, see protocol.md of OBS-Websocket at th
 ### Chataigne
 Compatible version with module: 1.9.8b3 or more<br />
 Creator: Benjamin Kuperberg<br />
-GitHub: <a href="https://github.com/benkuper/Chataigne" target="_blank">Chataigne website</a><br />
+GitHub: <a href="https://github.com/benkuper/Chataigne" target="_blank">Chataigne GitHub</a><br />
 Website: <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne website</a><br />
 Resum: Chataigne is made with one goal in mind : create a common tool for artists, technicians and developers who wish to use technology and synchronize softwares for shows, interactive installations or prototyping. It aims to be as simple as possible for basic interactions, but can be easily extended to create complex interactions.<br />
 
