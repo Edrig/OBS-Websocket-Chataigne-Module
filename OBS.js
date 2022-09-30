@@ -100,12 +100,15 @@ function TriggerHotkeyByName(reqId, hotkeyName) {
 }
 
 function TriggerHotkeyByKeySequence(reqId, keyId, shift, control, alt, command) {
-	var data = {};
-	data["keyId"] = keyId;
-	data["keyModifiers"]["shift"] = shift;
-	data["keyModifiers"]["control"] = control;
-	data["keyModifiers"]["alt"] = alt;
-	data["keyModifiers"]["command"] = command;
+	var data = {
+		"keyId" : keyId,
+		"keyModifiers" : {
+			"shift" : shift,
+			"control" : control,
+			"alt" : alt,
+			"command" : command
+		}
+	};
 	sendObsCommand("TriggerHotkeyByKeySequence", data, reqId);
 }
 
