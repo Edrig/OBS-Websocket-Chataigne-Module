@@ -2,8 +2,8 @@
    "name": "OBS Websocket",
    "type": "WebSocket Client",
    "path": "Software",
-   "version": "2.0.0",
-   "description": "OBS Websocket Module",
+   "version": "2.0.3",
+   "description": "To control OBS by Websocket. Module compatible with OBS Websocket 5 or more (directly integrated in OBS 28 or more).  To know all requests and parameters, see this link :https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
    "url": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
    "downloadURL": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module/archive/master.zip",
    "hasInput": true,
@@ -315,9 +315,6 @@
          "callback": "GetSceneList",
          "parameters": {
             "request Id": { "type":"String"},
-			"currentProgramSceneName": { "type":"String"},
-			"currentPreviewSceneName": { "type":"String"},
-			"scenes": { "type":"String", "default":null},
          }
       },
 	  
@@ -326,7 +323,6 @@
          "callback": "GetGroupList",
          "parameters": {
             "request Id": { "type":"String"},
-			"groups": { "type":"String"},
          }
       },
 	  
@@ -335,7 +331,6 @@
          "callback": "GetCurrentProgramScene",
          "parameters": {
             "request Id": { "type":"String"},
-			"currentProgramSceneName": { "type":"String"},
          }
       },
 	  
@@ -353,7 +348,6 @@
          "callback": "GetCurrentPreviewScene",
          "parameters": {
             "request Id": { "type":"String"},
-			"currentPreviewSceneName": { "type":"String"},
          }
       },
 	  
@@ -546,9 +540,9 @@
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
 			"Db settings ?":{"type":"Boolean"},
-			"?inputVolumeMul": { "type":"Integer", "min":0, "max":20,
+			"?inputVolumeMul": { "type":"float", "min":0, "max":20,
 								"dependency": { "source":"Db settings ?", "value":"Boolean", "check":"equals", "action":"show" } },
-			"?inputVolumeDb": { "type":"Integer", "min":-100, "max":26,
+			"?inputVolumeDb": { "type":"float", "min":-100, "max":26,
 								"dependency": { "source":"Db settings ?", "value":"Boolean", "check":"notEquals", "action":"show" }},
          }
       },
@@ -587,7 +581,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"inputAudioSyncOffset": { "type":"Float", "min":0, "max":1},
+			"inputAudioSyncOffset": { "type":"Integer", "min":-950, "max":20000},
          }
       },
 	  
@@ -858,7 +852,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sourceName": { "type":"String"},
-            "?searchOffset": { "type":"Integer", "min":-1},
+            "?searchOffset": { "type":"Integer", "min":-1, "default":0},
          }
       },
 	  
@@ -879,7 +873,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"String"},
+            "sceneItemId": { "type":"Integer", "min":0},
          }
       },
 	  
