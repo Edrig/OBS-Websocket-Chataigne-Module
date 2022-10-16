@@ -12,17 +12,13 @@ function parseHex(str)
 }
 //local.parameters.eventSub_Int.get()
 function wsMessageReceived(message) {
-	script.log("Websocket data received : " + message);
+//	script.log("Websocket data received : " + message);
 	var obsObj = JSON.parse(message);
 	var eventSub = local.parameters.eventSub_Int.get();
-	script.log("eventSub = " + eventSub);
 	if (obsObj.op == 0 && obsObj.d.authentication != null) {
 		var mdp = local.parameters.password.get() + obsObj.d.authentication.salt;
-		script.log("mdp = " + mdp); 
 		var Encode1 = util.toBase64(parseHex(util.encodeSHA256(mdp)));
-		script.log("Encode1 = " + Encode1);
 		var Encode2 = util.toBase64(parseHex(util.encodeSHA256(Encode1 + obsObj.d.authentication.challenge)));
-		script.log("Encode2 = " + Encode2);
 		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": '+eventSub+', "rpcVersion": 1}, "op": 1}');
 	}
 	else if (obsObj.op == 0) {
@@ -55,7 +51,6 @@ function sendObsCommand(req, data, reqId) {
 	send["op"] = 6;
 	send["d"] = para;
 
-	script.log(JSON.stringify(send));
 	local.send(JSON.stringify(send));
 }
 
@@ -255,23 +250,18 @@ function SaveSourceScreenshot(reqId, sourceName, imageFormat, imageFilePath, ima
 
 //---------------------------------------------------------------------------------
 /*Scenes Requests menu*/
-function GetSceneList(reqId, currentProgramSceneName, currentPreviewSceneName, scenes) {
+function GetSceneList(reqId) {
 	var data = {};
-	data["currentProgramSceneName"] = currentProgramSceneName;
-	data["currentPreviewSceneName"] = currentPreviewSceneName;
-	data["scenes"] = scenes;
 	sendObsCommand("GetSceneList", data, reqId);
 }
 
-function GetGroupList(reqId, groups, currentPreviewSceneName, scenes) {
+function GetGroupList(reqId) {
 	var data = {};
-	data["groups"] = groups;
 	sendObsCommand("GetGroupList", data, reqId);
 }
 
-function GetCurrentProgramScene(reqId, currentProgramSceneName) {
+function GetCurrentProgramScene(reqId) {
 	var data = {};
-	data["currentProgramSceneName"] = currentProgramSceneName;
 	sendObsCommand("GetCurrentProgramScene", data, reqId);
 }
 
@@ -281,9 +271,8 @@ function SetCurrentProgramScene(reqId, sceneName) {
 	sendObsCommand("SetCurrentProgramScene", data, reqId);
 }
 
-function GetCurrentPreviewScene(reqId, currentPreviewSceneName) {
+function GetCurrentPreviewScene(reqId) {
 	var data = {};
-	data["currentPreviewSceneName"] = currentPreviewSceneName;
 	sendObsCommand("GetCurrentPreviewScene", data, reqId);
 }
 

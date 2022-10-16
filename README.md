@@ -1,7 +1,11 @@
 # OBS-Websocket-Chataigne-Module
 A simple module to use OBS Websocket V5 with the Chataigne Software
 
+To know all parameters for your requests, see protocol.md of OBS-Websocket at this link : 
+ <a href="https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests" target="blank">Protocol.md OBS_Websocket</a> 
+
 link :  <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne Software </a> By Benjamin Kuperberg
+
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -60,6 +64,7 @@ Tainalo2: 	GitHub - https://github.com/DrMicka
 			YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA
 
 Edrig: GitHub - https://github.com/Edrig
+
 
 Project Link: [https://github.com/Edrig/OBS-Websocket-Chataigne-Module/](https://github.com/Edrig/OBS-Websocket-Chataigne-Module/)
 
