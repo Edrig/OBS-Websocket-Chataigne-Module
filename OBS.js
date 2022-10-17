@@ -10,9 +10,8 @@ function parseHex(str)
 
     return result;
 }
-//local.parameters.eventSub_Int.get()
-function wsMessageReceived(message) {
-//	script.log("Websocket data received : " + message);
+
+function wsMessageReceived(message) {//	script.log("Websocket data received : " + message);
 	var obsObj = JSON.parse(message);
 	var eventSub = local.parameters.eventSub_Int.get();
 	if (obsObj.op == 0 && obsObj.d.authentication != null) {
@@ -22,9 +21,10 @@ function wsMessageReceived(message) {
 		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": '+eventSub+', "rpcVersion": 1}, "op": 1}');
 	}
 	else if (obsObj.op == 0) {
-		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "Chataigne",     "eventSubscriptions": '+eventSub+'   } }');
+		local.send('{"op": 1,"d": {"rpcVersion": 1,"authentication": "Chataigne","eventSubscriptions": '+eventSub+'} }');
 	}
 }
+
 function wsDataReceived(data) {
 	script.log("Websocket data received : " + data);
 }
@@ -253,6 +253,7 @@ function SaveSourceScreenshot(reqId, sourceName, imageFormat, imageFilePath, ima
 function GetSceneList(reqId) {
 	var data = {};
 	sendObsCommand("GetSceneList", data, reqId);
+	
 }
 
 function GetGroupList(reqId) {
