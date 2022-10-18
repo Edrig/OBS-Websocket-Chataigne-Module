@@ -1,4 +1,4 @@
-/* ***************** WEBSOCKET  MODULE CONNEXION *************************** */
+var tempo ="";
 function parseHex(str)
 {
     var result = [];
@@ -7,12 +7,29 @@ function parseHex(str)
         var n = parseInt("0x"+str.substring(i,i+2));
         result.push(n);
     }
-
     return result;
 }
-//local.parameters.eventSub_Int.get()
+
+/*
+ This function will be called each time a value of this module has changed, meaning a parameter or trigger inside the "Values" panel of this module
+ This function only exists because the script is in a module
+*/
+function moduleValueChanged(value) {
+	if(value.name == "removeAllValues") {
+		local.values.removeContainer("Scenes");
+		local.values.removeParameter ("CurrentScene");
+		local.values.removeContainer("Groups");
+		local.values.removeParameter ("CurrentCollection");
+		local.values.removeContainer("Collections");
+		script.logWarning("All values have been deleted");
+	}
+}
+
+/* ************************************************************************* */
+/* ***************** WEBSOCKET  MESSAGE RECEIVED *************************** */
+/* ************************************************************************* */
 function wsMessageReceived(message) {
-//	script.log("Websocket data received : " + message);
+	/* ************************* CONNECTION ******************************** */
 	var obsObj = JSON.parse(message);
 	var eventSub = local.parameters.eventSub_Int.get();
 	if (obsObj.op == 0 && obsObj.d.authentication != null) {
@@ -22,9 +39,103 @@ function wsMessageReceived(message) {
 		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": '+eventSub+', "rpcVersion": 1}, "op": 1}');
 	}
 	else if (obsObj.op == 0) {
-		local.send('{   "op": 1,   "d": {     "rpcVersion": 1,     "authentication": "Chataigne",     "eventSubscriptions": '+eventSub+'   } }');
+		local.send('{"op": 1,"d": {"rpcVersion": 1,"authentication": "Chataigne","eventSubscriptions": '+eventSub+'} }');
+	}
+	/* ************ CHANGED VALUES WITH MESSAGE RECEIVED ******************** */
+	//GetSceneCollectionList
+	if (obsObj.d.requestType == "GetSceneCollectionList") {
+		var n = 0;
+		local.values.addContainer("Collections");
+		if (local.values.getChild("CurrentCollection") == null) {
+			local.values.addStringParameter("CurrentCollection","", obsObj.d.responseData.currentSceneCollectionName);
+			local.values.getChild("CurrentCollection").setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild("CurrentCollection").set(obsObj.d.responseData.currentSceneCollectionName);
+		}
+		while (obsObj.d.responseData.sceneCollections[n] != null) {
+			var collection = obsObj.d.responseData.sceneCollections[n];
+			local.values.getChild("Collections").addStringParameter("Collection"+n,"",collection);
+			local.values.getChild("Collections").getChild("Collection"+n).setAttribute("readonly" ,true);
+			n++;
+		}
+	}
+	
+	//GetSceneList
+	if (obsObj.d.requestType == "GetSceneList") {
+		var n = 0;
+		local.values.addContainer("Scenes");
+		if (local.values.getChild("CurrentScene") == null) {
+			local.values.addStringParameter("CurrentScene","", obsObj.d.responseData.currentProgramSceneName);
+			local.values.getChild("CurrentScene").setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild("CurrentScene").set(obsObj.d.responseData.currentProgramSceneName);
+		}
+		while (obsObj.d.responseData['scenes'][n].sceneIndex != null) {
+			var index = obsObj.d.responseData['scenes'][n].sceneIndex;
+			var scene = obsObj.d.responseData['scenes'][n].sceneName;
+			local.values.getChild("Scenes").addContainer(scene);
+			local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneIndex","",index);
+			local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").setAttribute("readonly" ,true);
+			n++;
+		}
+	}
+	
+	//GetCurrentProgramScene
+	if (obsObj.d.requestType == "GetCurrentProgramScene") {
+		if (local.values.getChild("CurrentScene") == null) {
+			local.values.addStringParameter("CurrentScene","", obsObj.d.responseData.currentProgramSceneName);
+			local.values.getChild("CurrentScene").setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild("CurrentScene").set(obsObj.d.responseData.currentProgramSceneName);
+		}
+	}
+	
+	//SetCurrentProgramScene
+	if (obsObj.d.requestType == "SetCurrentProgramScene") {
+		if (local.values.getChild("CurrentScene") == null) {
+			local.values.addStringParameter("CurrentScene","", tempo);
+			local.values.getChild("CurrentScene").setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild("CurrentScene").set(tempo);
+		}
+	}
+	
+	//GetGroupList
+	if (obsObj.d.requestType == "GetGroupList") {
+		var n = 0;
+		local.values.addContainer("Groups");
+		while (obsObj.d.responseData.groups[n] != null) {
+			var group = obsObj.d.responseData.groups[n];
+			local.values.getChild("Groups").addStringParameter("NameGroup"+n,"",group);
+			local.values.getChild("Groups").getChild("NameGroup"+n).setAttribute("readonly" ,true);
+			n++;
+		}
+	}
+	
+	//GetSceneItemList
+	if (obsObj.d.requestType == "GetSceneItemList") {
+		var n = 0;
+		local.values.addContainer("Scenes");
+		while (obsObj.d.responseData['sceneItems'][n].sourceName!= null) {
+			var sceneItemId = obsObj.d.responseData['sceneItems'][n].sceneItemId;
+			var sourceName = obsObj.d.responseData['sceneItems'][n].sourceName;
+			local.values.getChild("Scenes").getChild(tempo).addContainer(sourceName);
+			if (local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem") == null) {
+				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).addStringParameter("IndexItem","",sceneItemId);
+				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem").setAttribute("readonly" ,true);
+			}
+			else {
+				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem").set(sceneItemId);
+			}
+			n++;
+		}
 	}
 }
+
 function wsDataReceived(data) {
 	script.log("Websocket data received : " + data);
 }
@@ -253,6 +364,7 @@ function SaveSourceScreenshot(reqId, sourceName, imageFormat, imageFilePath, ima
 function GetSceneList(reqId) {
 	var data = {};
 	sendObsCommand("GetSceneList", data, reqId);
+	
 }
 
 function GetGroupList(reqId) {
@@ -267,6 +379,7 @@ function GetCurrentProgramScene(reqId) {
 
 function SetCurrentProgramScene(reqId, sceneName) {
 	var data = {};
+	tempo = sceneName;
 	data["sceneName"] = sceneName;
 	sendObsCommand("SetCurrentProgramScene", data, reqId);
 }
@@ -620,6 +733,7 @@ function SetSourceFilterEnabled(reqId, sourceName, filterName, filterEnabled) {
 /*Scene Items Requests Menu*/
 function GetSceneItemList(reqId, sceneName) {
 	var data = {};
+	tempo = sceneName;
 	data["sceneName"] = sceneName;
 	sendObsCommand("GetSceneItemList", data, reqId);
 }
