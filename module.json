@@ -1,29 +1,53 @@
 {
-   "name": "OBS Websocket",
-   "type": "WebSocket Client",
-   "path": "Software",
-   "version": "2.0.3",
-   "description": "To control OBS by Websocket. Module compatible with OBS Websocket 5 or more (directly integrated in OBS 28 or more).  To know all requests and parameters, see this link :https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
-   "url": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
-   "downloadURL": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module/archive/master.zip",
-   "hasInput": true,
-   "hasOutput": true,
-   "hideDefaultCommands": true,
-   "parameters": {
-      "eventSub_Int": {
-         "type": "Integer",
-		 "default":33,
-		 "min":0,
-      },
-      "password": {
-         "type": "String"
-      }
-   },
-   "defaults": {
-      "Protocol": "Lines",
-      "autoAdd": false,
-      "serverPath": "127.0.0.1:4455",
-   },
+	"name": "OBS Websocket",
+	"type": "WebSocket Client",
+	"path": "Software",
+	"version": "2.0.4",
+	"description": "To control OBS by Websocket. Module compatible with OBS Websocket 5 or more (directly integrated in OBS 28 or more).  To know all requests and parameters, see this link :https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
+	"url": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
+	"downloadURL": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module/archive/master.zip",
+	"hasInput": true,
+	"hasOutput": true,
+	"hideDefaultCommands": true,
+	"hideDefaultParameters": [
+		"autoAdd",
+		"protocol",
+		"messageStructure",
+		"firstValueIsTheName",
+		"useSecureConnection",
+		"connected",
+	],
+	"defaults": {
+		"Protocol": "Lines",
+		"autoAdd": false,
+		"serverPath": "127.0.0.1:4455",
+	},
+	"parameters": {
+		"Enable Authentification": {
+			"type": "Boolean",
+			"default":true,
+		},
+		"Password": {
+			"type": "String",
+			"dependency": { "source":"Enable Authentification", "value":true, "check":"equals", "action":"show" },
+		},
+		"EventSub_Int": {
+			"type": "Integer",
+			"default":33,
+			"min":0,
+		},
+		"See all requests of OBS": {
+			"type": "String",
+			"default":"https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
+		},
+	},
+	"values": {
+		"removeAllValues": {
+			"type":"Trigger",
+			"callback": "removeAllValues",
+		}
+	},
+	
    "scripts": [
       "OBS.js"
    ],
