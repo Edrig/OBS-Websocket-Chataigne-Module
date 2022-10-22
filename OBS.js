@@ -21,6 +21,8 @@ function moduleValueChanged(value) {
 		local.values.removeContainer("Groups");
 		local.values.removeParameter ("CurrentCollection");
 		local.values.removeContainer("Collections");
+		local.values.removeContainer("outputState");
+		local.values.removeContainer("outputActive");
 		script.logWarning("All values have been deleted");
 	}
 }
@@ -132,6 +134,24 @@ function wsMessageReceived(message) {
 				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem").set(sceneItemId);
 			}
 			n++;
+		}
+	}
+
+	//StreamStateChanged
+	if (obsObj.d.eventType == "StreamStateChanged") {
+		if (local.values.getChild("outputActive") == null) {
+			local.values.addBoolParameter("outputActive","", obsObj.d.eventData.outputActive);
+			local.values.getChild("outputActive").setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild("outputActive").set(obsObj.d.eventData.outputActive);
+		}
+		if (local.values.getChild("outputState") == null) {
+			local.values.addStringParameter("outputState","", obsObj.d.eventData.outputState);
+			local.values.getChild("outputState").setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild("outputState").set(obsObj.d.eventData.outputState);
 		}
 	}
 }
