@@ -30,6 +30,16 @@ function valueStringParameter(value, data) {
 			local.values.getChild(value).set(data);
 		}
 }
+function valueBoolContainerParameter(container, value, data) {
+		local.values.addContainer(container);
+		if (local.values.getChild(container).getChild(value) == null) {
+			local.values.getChild(container).addBoolParameter(value,"", data);
+			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild(container).getChild(value).set(data);
+		}
+}
 
 /*
  This function will be called each time a value of this module has changed, meaning a parameter or trigger inside the "Values" panel of this module
@@ -44,9 +54,13 @@ function moduleValueChanged(value) {
 		local.values.removeContainer("Collections");
 		local.values.removeParameter("outputActive");
 		local.values.removeParameter("outputState");
+		local.values.removeParameter("RecordStateChanged");
+		local.values.removeContainer("Audio Input");
 		script.logWarning("All values have been deleted");
 	}
 }
+
+
 
 /* ************************************************************************* */
 /* ***************** WEBSOCKET  MESSAGE RECEIVED *************************** */
@@ -67,6 +81,8 @@ function wsMessageReceived(message) {
 	}
 	else if (obsObj.op == 2) {
 		//TODO
+		GetSceneList(7);
+		GetCurrentProgramScene(7);
 	}
 	/* ************ CHANGED VALUES WITH MESSAGE RECEIVED ******************** */
 	//GetSceneCollectionList
@@ -146,9 +162,20 @@ function wsMessageReceived(message) {
 		valueBoolParameter("outputActive", d.eventData.outputActive);
 		valueStringParameter("outputState", d.eventData.outputState);
 	}
+	//RecordStateChanged Event
+	if (d.eventType == "RecordStateChanged") {
+		valueBoolParameter("outputActive", d.eventData.outputActive);
+		valueStringParameter("outputState", d.eventData.outputState);
+		valueStringParameter("outputPath", d.eventData.outputPath);
+	}
 	//CurrentProgramSceneChanged Event
 	if (d.eventType == "CurrentProgramSceneChanged") {
 		valueStringParameter("CurrentScene", d.eventData.sceneName);
+	}
+
+	//InputMuteStateChanged
+	if (d.eventType == "InputMuteStateChanged") {
+		valueBoolContainerParameter("Audio Input", d.eventData.inputName, d.eventData.inputMuted);
 	}
 }
 
@@ -448,7 +475,14 @@ function SetSceneSceneTransitionOverride(reqId, sceneName, transitionName,transi
 /*Inputs Requests menu*/
 function GetInputList(reqId, inputKind) {
 	var data = {};
-	data["inputKind"] = inputKind;
+	if( data["inputKind"] != undefined)
+	{
+		data["inputKind"] = inputKind;
+	}
+	else {
+
+		data["inputKind"] = null;
+	}
 	sendObsCommand("GetInputList", data, reqId);
 }
 
@@ -519,7 +553,7 @@ function SetInputMute(reqId, inputName, inputMuted) {
 	sendObsCommand("SetInputMute", data, reqId);
 }
 
-function ToggleInputMutee(reqId, inputName) {
+function ToggleInputMute(reqId, inputName) {
 	var data = {};
 	data["inputName"] = inputName;
 	sendObsCommand("ToggleInputMute", data, reqId);
