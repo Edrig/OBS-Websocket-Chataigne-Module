@@ -30,10 +30,22 @@ function valueStringParameter(value, data) {
 			local.values.getChild(value).set(data);
 		}
 }
+
 function valueBoolContainerParameter(container, value, data) {
 		local.values.addContainer(container);
 		if (local.values.getChild(container).getChild(value) == null) {
 			local.values.getChild(container).addBoolParameter(value,"", data);
+			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild(container).getChild(value).set(data);
+		}
+}
+
+function valueStringContainerParameter(container, value, data) {
+	local.values.addContainer(container);
+	if (local.values.getChild(container).getChild(value) == null) {
+			local.values.getChild(container).addStringParameter(value,"", data);
 			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
 		}
 		else {
@@ -56,6 +68,8 @@ function moduleValueChanged(value) {
 		local.values.removeParameter("outputState");
 		local.values.removeParameter("RecordStateChanged");
 		local.values.removeContainer("Audio Input");
+		local.values.removeContainer("Stream");
+		local.values.removeContainer("Record");
 		script.logWarning("All values have been deleted");
 	}
 }
@@ -159,14 +173,14 @@ function wsMessageReceived(message) {
 
 	//StreamStateChanged Event
 	if (d.eventType == "StreamStateChanged") {
-		valueBoolParameter("outputActive", d.eventData.outputActive);
-		valueStringParameter("outputState", d.eventData.outputState);
+		valueBoolContainerParameter("Stream", "outputActive", d.eventData.outputActive);
+		valueStringContainerParameter("Stream", "outputState", d.eventData.outputState);
 	}
 	//RecordStateChanged Event
 	if (d.eventType == "RecordStateChanged") {
-		valueBoolParameter("outputActive", d.eventData.outputActive);
-		valueStringParameter("outputState", d.eventData.outputState);
-		valueStringParameter("outputPath", d.eventData.outputPath);
+		valueBoolContainerParameter("Record", "outputActive", d.eventData.outputActive);
+		valueStringContainerParameter("Record", "outputState", d.eventData.outputState);
+		valueStringContainerParameter("Record", "outputPath", d.eventData.outputPath);
 	}
 	//CurrentProgramSceneChanged Event
 	if (d.eventType == "CurrentProgramSceneChanged") {
