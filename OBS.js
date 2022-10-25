@@ -76,7 +76,7 @@ function wsMessageReceived(message) {
 		valueStringParameter("CurrentCollection", d.responseData.currentSceneCollectionName);
 
 		while (d.responseData.sceneCollections[n] != null) {
-			var collection = =d.responseData.sceneCollections[n];
+			var collection = d.responseData.sceneCollections[n];
 			local.values.getChild("Collections").addStringParameter("Collection"+n,"",collection);
 			local.values.getChild("Collections").getChild("Collection"+n).setAttribute("readonly" ,true);
 			n++;
