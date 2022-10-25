@@ -10,6 +10,49 @@ function parseHex(str)
     return result;
 }
 
+/* Utilitary Function */
+function valueBoolParameter(value, data) {
+	if (local.values.getChild(value) == null) {
+			local.values.addBoolParameter(value,"", data);
+			local.values.getChild(value).setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild(value).set(data);
+		}
+}
+
+function valueStringParameter(value, data) {
+	if (local.values.getChild(value) == null) {
+			local.values.addStringParameter(value,"", data);
+			local.values.getChild(value).setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild(value).set(data);
+		}
+}
+
+function valueBoolContainerParameter(container, value, data) {
+		local.values.addContainer(container);
+		if (local.values.getChild(container).getChild(value) == null) {
+			local.values.getChild(container).addBoolParameter(value,"", data);
+			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild(container).getChild(value).set(data);
+		}
+}
+
+function valueStringContainerParameter(container, value, data) {
+	local.values.addContainer(container);
+	if (local.values.getChild(container).getChild(value) == null) {
+			local.values.getChild(container).addStringParameter(value,"", data);
+			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
+		}
+		else {
+			local.values.getChild(container).getChild(value).set(data);
+		}
+}
+
 /*
  This function will be called each time a value of this module has changed, meaning a parameter or trigger inside the "Values" panel of this module
  This function only exists because the script is in a module
@@ -21,11 +64,17 @@ function moduleValueChanged(value) {
 		local.values.removeContainer("Groups");
 		local.values.removeParameter ("CurrentCollection");
 		local.values.removeContainer("Collections");
-		local.values.removeContainer("outputState");
-		local.values.removeContainer("outputActive");
+		local.values.removeParameter("outputActive");
+		local.values.removeParameter("outputState");
+		local.values.removeParameter("RecordStateChanged");
+		local.values.removeContainer("Audio Input");
+		local.values.removeContainer("Stream");
+		local.values.removeContainer("Record");
 		script.logWarning("All values have been deleted");
 	}
 }
+
+
 
 /* ************************************************************************* */
 /* ***************** WEBSOCKET  MESSAGE RECEIVED *************************** */
@@ -33,30 +82,31 @@ function moduleValueChanged(value) {
 function wsMessageReceived(message) {
 	/* ************************* CONNECTION ******************************** */
 	var obsObj = JSON.parse(message);
+	var d = obsObj.d;
 	var eventSub = local.parameters.eventSub_Int.get();
-	if (obsObj.op == 0 && obsObj.d.authentication != null) {
-		var mdp = local.parameters.password.get() + obsObj.d.authentication.salt;
+	if (obsObj.op == 0 && d.authentication != null) {
+		var mdp = local.parameters.password.get() + d.authentication.salt;
 		var Encode1 = util.toBase64(parseHex(util.encodeSHA256(mdp)));
-		var Encode2 = util.toBase64(parseHex(util.encodeSHA256(Encode1 + obsObj.d.authentication.challenge)));
+		var Encode2 = util.toBase64(parseHex(util.encodeSHA256(Encode1 + d.authentication.challenge)));
 		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": '+eventSub+', "rpcVersion": 1}, "op": 1}');
 	}
 	else if (obsObj.op == 0) {
 		local.send('{"op": 1,"d": {"rpcVersion": 1,"authentication": "Chataigne","eventSubscriptions": '+eventSub+'} }');
 	}
+	else if (obsObj.op == 2) {
+		//TODO
+		GetSceneList(7);
+		GetCurrentProgramScene(7);
+	}
 	/* ************ CHANGED VALUES WITH MESSAGE RECEIVED ******************** */
 	//GetSceneCollectionList
-	if (obsObj.d.requestType == "GetSceneCollectionList") {
+	if (d.requestType == "GetSceneCollectionList") {
 		var n = 0;
 		local.values.addContainer("Collections");
-		if (local.values.getChild("CurrentCollection") == null) {
-			local.values.addStringParameter("CurrentCollection","", obsObj.d.responseData.currentSceneCollectionName);
-			local.values.getChild("CurrentCollection").setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild("CurrentCollection").set(obsObj.d.responseData.currentSceneCollectionName);
-		}
-		while (obsObj.d.responseData.sceneCollections[n] != null) {
-			var collection = obsObj.d.responseData.sceneCollections[n];
+		valueStringParameter("CurrentCollection", d.responseData.currentSceneCollectionName);
+
+		while (d.responseData.sceneCollections[n] != null) {
+			var collection = d.responseData.sceneCollections[n];
 			local.values.getChild("Collections").addStringParameter("Collection"+n,"",collection);
 			local.values.getChild("Collections").getChild("Collection"+n).setAttribute("readonly" ,true);
 			n++;
@@ -64,19 +114,14 @@ function wsMessageReceived(message) {
 	}
 	
 	//GetSceneList
-	if (obsObj.d.requestType == "GetSceneList") {
+	if (d.requestType == "GetSceneList") {
 		var n = 0;
 		local.values.addContainer("Scenes");
-		if (local.values.getChild("CurrentScene") == null) {
-			local.values.addStringParameter("CurrentScene","", obsObj.d.responseData.currentProgramSceneName);
-			local.values.getChild("CurrentScene").setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild("CurrentScene").set(obsObj.d.responseData.currentProgramSceneName);
-		}
-		while (obsObj.d.responseData['scenes'][n].sceneIndex != null) {
-			var index = obsObj.d.responseData['scenes'][n].sceneIndex;
-			var scene = obsObj.d.responseData['scenes'][n].sceneName;
+		valueStringParameter("CurrentScene", d.responseData.currentProgramSceneName);
+
+		while (d.responseData['scenes'][n].sceneIndex != null) {
+			var index = d.responseData['scenes'][n].sceneIndex;
+			var scene = d.responseData['scenes'][n].sceneName;
 			local.values.getChild("Scenes").addContainer(scene);
 			local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneIndex","",index);
 			local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").setAttribute("readonly" ,true);
@@ -85,33 +130,22 @@ function wsMessageReceived(message) {
 	}
 	
 	//GetCurrentProgramScene
-	if (obsObj.d.requestType == "GetCurrentProgramScene") {
-		if (local.values.getChild("CurrentScene") == null) {
-			local.values.addStringParameter("CurrentScene","", obsObj.d.responseData.currentProgramSceneName);
-			local.values.getChild("CurrentScene").setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild("CurrentScene").set(obsObj.d.responseData.currentProgramSceneName);
-		}
+	if (d.requestType == "GetCurrentProgramScene") {
+		valueStringParameter("CurrentScene", d.responseData.currentProgramSceneName);
 	}
 	
 	//SetCurrentProgramScene
-	if (obsObj.d.requestType == "SetCurrentProgramScene") {
-		if (local.values.getChild("CurrentScene") == null) {
-			local.values.addStringParameter("CurrentScene","", tempo);
-			local.values.getChild("CurrentScene").setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild("CurrentScene").set(tempo);
-		}
+	if (d.requestType == "SetCurrentProgramScene") {
+		valueStringParameter("CurrentScene", tempo);
+
 	}
 	
 	//GetGroupList
-	if (obsObj.d.requestType == "GetGroupList") {
+	if (d.requestType == "GetGroupList") {
 		var n = 0;
 		local.values.addContainer("Groups");
-		while (obsObj.d.responseData.groups[n] != null) {
-			var group = obsObj.d.responseData.groups[n];
+		while (d.responseData.groups[n] != null) {
+			var group = d.responseData.groups[n];
 			local.values.getChild("Groups").addStringParameter("NameGroup"+n,"",group);
 			local.values.getChild("Groups").getChild("NameGroup"+n).setAttribute("readonly" ,true);
 			n++;
@@ -119,12 +153,12 @@ function wsMessageReceived(message) {
 	}
 	
 	//GetSceneItemList
-	if (obsObj.d.requestType == "GetSceneItemList") {
+	if (d.requestType == "GetSceneItemList") {
 		var n = 0;
 		local.values.addContainer("Scenes");
-		while (obsObj.d.responseData['sceneItems'][n].sourceName!= null) {
-			var sceneItemId = obsObj.d.responseData['sceneItems'][n].sceneItemId;
-			var sourceName = obsObj.d.responseData['sceneItems'][n].sourceName;
+		while (d.responseData['sceneItems'][n].sourceName!= null) {
+			var sceneItemId = d.responseData['sceneItems'][n].sceneItemId;
+			var sourceName = d.responseData['sceneItems'][n].sourceName;
 			local.values.getChild("Scenes").getChild(tempo).addContainer(sourceName);
 			if (local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem") == null) {
 				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).addStringParameter("IndexItem","",sceneItemId);
@@ -137,22 +171,25 @@ function wsMessageReceived(message) {
 		}
 	}
 
-	//StreamStateChanged
-	if (obsObj.d.eventType == "StreamStateChanged") {
-		if (local.values.getChild("outputActive") == null) {
-			local.values.addBoolParameter("outputActive","", obsObj.d.eventData.outputActive);
-			local.values.getChild("outputActive").setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild("outputActive").set(obsObj.d.eventData.outputActive);
-		}
-		if (local.values.getChild("outputState") == null) {
-			local.values.addStringParameter("outputState","", obsObj.d.eventData.outputState);
-			local.values.getChild("outputState").setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild("outputState").set(obsObj.d.eventData.outputState);
-		}
+	//StreamStateChanged Event
+	if (d.eventType == "StreamStateChanged") {
+		valueBoolContainerParameter("Stream", "outputActive", d.eventData.outputActive);
+		valueStringContainerParameter("Stream", "outputState", d.eventData.outputState);
+	}
+	//RecordStateChanged Event
+	if (d.eventType == "RecordStateChanged") {
+		valueBoolContainerParameter("Record", "outputActive", d.eventData.outputActive);
+		valueStringContainerParameter("Record", "outputState", d.eventData.outputState);
+		valueStringContainerParameter("Record", "outputPath", d.eventData.outputPath);
+	}
+	//CurrentProgramSceneChanged Event
+	if (d.eventType == "CurrentProgramSceneChanged") {
+		valueStringParameter("CurrentScene", d.eventData.sceneName);
+	}
+
+	//InputMuteStateChanged
+	if (d.eventType == "InputMuteStateChanged") {
+		valueBoolContainerParameter("Audio Input", d.eventData.inputName, d.eventData.inputMuted);
 	}
 }
 
@@ -452,7 +489,14 @@ function SetSceneSceneTransitionOverride(reqId, sceneName, transitionName,transi
 /*Inputs Requests menu*/
 function GetInputList(reqId, inputKind) {
 	var data = {};
-	data["inputKind"] = inputKind;
+	if( data["inputKind"] != undefined)
+	{
+		data["inputKind"] = inputKind;
+	}
+	else {
+
+		data["inputKind"] = null;
+	}
 	sendObsCommand("GetInputList", data, reqId);
 }
 
@@ -523,7 +567,7 @@ function SetInputMute(reqId, inputName, inputMuted) {
 	sendObsCommand("SetInputMute", data, reqId);
 }
 
-function ToggleInputMutee(reqId, inputName) {
+function ToggleInputMute(reqId, inputName) {
 	var data = {};
 	data["inputName"] = inputName;
 	sendObsCommand("ToggleInputMute", data, reqId);
