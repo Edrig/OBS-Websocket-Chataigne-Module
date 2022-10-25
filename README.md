@@ -55,11 +55,11 @@ Don't forget to give the project a star! Thanks again!
 <!-- Contact -->
 ## Contact
 
-Tainalo2: 	GitHub - https://github.com/Edrig
+Tainalo2: 	GitHub - https://github.com/tainalo2
 			Twitch - https://www.twitch.tv/tainalo2
 			YouTube - https://www.youtube.com/channel/UC2MYhnsKCZJs3B3wROu1B8w
 			
-Tainalo2: 	GitHub - https://github.com/DrMicka
+DrMicka: 	GitHub - https://github.com/DrMicka
 			Twitch - https://www.twitch.tv/dr_micka
 			YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA
 
