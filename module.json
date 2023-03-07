@@ -835,7 +835,7 @@
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
-			"filterSettings": { "type":"Integer","min":0},
+			"filterSettings": { "type":"String"},
 			"overlay": { "type":"Boolean", "default":true},
          }
       },
