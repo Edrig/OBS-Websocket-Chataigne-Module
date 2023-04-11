@@ -53,6 +53,17 @@ function valueStringContainerParameter(container, value, data) {
 		}
 }
 
+function valueIntegerContainerParameter(container, value, data) {
+	local.values.addContainer(container);
+	if (local.values.getChild(container).getChild(value) == null) {
+	local.values.getChild(container).addIntParameter(value,"", data);
+	local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
+	}
+		else {
+			local.values.getChild(container).getChild(value).set(data);
+		}
+}
+
 function colorToInt(color) {
 	var r = parseInt(color[0]*255);
 	var g = parseInt(color[1]*255);
@@ -77,6 +88,7 @@ function moduleValueChanged(value) {
 		local.values.removeContainer("Audio Input");
 		local.values.removeContainer("Stream");
 		local.values.removeContainer("Record");
+		local.values.removeContainer("sceneItemEnabled");
 		script.logWarning("All values have been deleted");
 	}
 }
@@ -192,6 +204,13 @@ function wsMessageReceived(message) {
 	//CurrentProgramSceneChanged Event
 	if (d.eventType == "CurrentProgramSceneChanged") {
 		valueStringParameter("CurrentScene", d.eventData.sceneName);
+	}
+	
+	//SceneItemEnableStateChanged Event
+	if (d.eventType == "SceneItemEnableStateChanged") {
+		valueStringContainerParameter("sceneItemEnabled", "sceneName", d.eventData.sceneName);
+		valueBoolContainerParameter("sceneItemEnabled", "sceneItemEnabled", d.eventData.sceneItemEnabled);
+		valueIntegerContainerParameter("sceneItemEnabled", "sceneItemId", d.eventData.sceneItemId);
 	}
 
 	//InputMuteStateChanged
