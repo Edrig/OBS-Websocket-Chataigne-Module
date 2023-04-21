@@ -208,9 +208,9 @@ function wsMessageReceived(message) {
 	
 	//SceneItemEnableStateChanged Event
 	if (d.eventType == "SceneItemEnableStateChanged") {
-		valueStringContainerParameter("sceneItemEnabled", "sceneName", d.eventData.sceneName);
 		valueBoolContainerParameter("sceneItemEnabled", "sceneItemEnabled", d.eventData.sceneItemEnabled);
 		valueIntegerContainerParameter("sceneItemEnabled", "sceneItemId", d.eventData.sceneItemId);
+		valueStringContainerParameter("sceneItemEnabled", "sceneName", d.eventData.sceneName);
 	}
 
 	//InputMuteStateChanged
