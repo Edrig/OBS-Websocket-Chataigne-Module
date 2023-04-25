@@ -15,36 +15,36 @@
 		"messageStructure",
 		"firstValueIsTheName",
 		"useSecureConnection",
-		"connected",
+		"connected"
 	],
 	"defaults": {
 		"Protocol": "Lines",
 		"autoAdd": false,
-		"serverPath": "127.0.0.1:4455",
+		"serverPath": "127.0.0.1:4455"
 	},
 	"parameters": {
 		"Enable Authentification": {
 			"type": "Boolean",
-			"default":true,
+			"default":true
 		},
 		"Password": {
 			"type": "String",
-			"dependency": { "source":"Enable Authentification", "value":true, "check":"equals", "action":"show" },
+			"dependency": { "source":"Enable Authentification", "value":true, "check":"equals", "action":"show" }
 		},
 		"EventSub_Int": {
 			"type": "Integer",
 			"default":33,
-			"min":0,
+			"min":0
 		},
 		"See all requests of OBS": {
 			"type": "String",
-			"default":"https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
-		},
+			"default":"https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests "
+		}
 	},
 	"values": {
 		"removeAllValues": {
 			"type":"Trigger",
-			"callback": "removeAllValues",
+			"callback": "removeAllValues"
 		}
 	},
 	
@@ -284,7 +284,7 @@
          "menu": "Config Requests",
          "callback": "GetRecordDirectory",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -293,7 +293,7 @@
          "callback": "GetSourceActive",
          "parameters": {
             "request Id": { "type":"String"},
-			"sourceName": { "type":"String"},
+			"sourceName": { "type":"String"}
          }
       },
 	  
@@ -306,7 +306,7 @@
 			"imageFormat": { "type":"String"},
 			"?imageWidth": { "type":"Integer", "min":8, "max":4096},
 			"?imageHeight": { "type":"Integer", "min":8, "max":4096},
-			"?imageCompressionQuality": { "type":"Integer", "min":-1, "max":100, "default":-1},
+			"?imageCompressionQuality": { "type":"Integer", "min":-1, "max":100, "default":-1}
          }
       },
 	  
@@ -326,11 +326,12 @@
 				"png":"png",
 				"ppm":"ppm",
 				"xbm":"xbm",
-				"xpm":"xpm",				} },
-			"imageFormat": { "type":"String"},
+				"xpm":"xpm"
+            }
+         },
 			"?imageWidth": { "type":"Integer", "min":8, "max":4096},
 			"?imageHeight": { "type":"Integer", "min":8, "max":4096},
-			"?imageCompressionQuality": { "type":"Integer", "min":-1, "max":100, "default":-1},
+			"?imageCompressionQuality": { "type":"Integer", "min":-1, "max":100, "default":-1}
          }
       },
 	  
@@ -338,7 +339,7 @@
          "menu": "Scenes Requests",
          "callback": "GetSceneList",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -346,7 +347,7 @@
          "menu": "Scenes Requests",
          "callback": "GetGroupList",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -354,7 +355,7 @@
          "menu": "Scenes Requests",
          "callback": "GetCurrentProgramScene",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -363,7 +364,7 @@
          "callback": "SetCurrentProgramScene",
          "parameters": {
             "request Id": { "type":"String"},
-			"sceneName": { "type":"String"},
+			"sceneName": { "type":"String"}
          }
       },
 	  
@@ -371,7 +372,7 @@
          "menu": "Scenes Requests",
          "callback": "GetCurrentPreviewScene",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -380,7 +381,7 @@
          "callback": "SetCurrentPreviewScene",
          "parameters": {
             "request Id": { "type":"String"},
-			"sceneName": { "type":"String"},
+			"sceneName": { "type":"String"}
          }
       },
 	  
@@ -389,7 +390,7 @@
          "callback": "CreateScene",
          "parameters": {
             "request Id": { "type":"String"},
-			"sceneName": { "type":"String"},
+			"sceneName": { "type":"String"}
          }
       },
 	  
@@ -398,7 +399,7 @@
          "callback": "RemoveScene",
          "parameters": {
             "request Id": { "type":"String"},
-			"sceneName": { "type":"String"},
+			"sceneName": { "type":"String"}
          }
       },
 
@@ -408,7 +409,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"sceneName": { "type":"String"},
-			"newSceneName": { "type":"String"},
+			"newSceneName": { "type":"String"}
          }
       },
 	  
@@ -417,7 +418,7 @@
          "callback": "GetSceneSceneTransitionOverride",
          "parameters": {
             "request Id": { "type":"String"},
-			"sceneName": { "type":"String"},
+			"sceneName": { "type":"String"}
          }
       },
 	  
@@ -428,7 +429,7 @@
             "request Id": { "type":"String"},
 			"sceneName": { "type":"String"},
 			"?transitionName": { "type":"String"},
-			"?transitionDuration": { "type":"Integer", "min":50, "max":20000},
+			"?transitionDuration": { "type":"Integer", "min":50, "max":20000}
          }
       },
 
@@ -455,7 +456,7 @@
          "menu": "Inputs Requests",
          "callback": "GetSpecialInputs",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 
@@ -468,7 +469,7 @@
 			"inputName": { "type":"String"},
 			"inputKind": { "type":"String"},
 			"?inputSettings": { "type":"String"},
-			"?sceneItemEnabled": { "type":"Boolean"},
+			"?sceneItemEnabled": { "type":"Boolean"}
          }
       },
 	  
@@ -477,7 +478,7 @@
          "callback": "RemoveInput",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 
@@ -487,7 +488,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"newInputName": { "type":"String"},
+			"newInputName": { "type":"String"}
          }
       },
 	  
@@ -496,7 +497,7 @@
          "callback": "GetInputDefaultSettings",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputKind": { "type":"String"},
+			"inputKind": { "type":"String"}
          }
       },
 	  
@@ -505,7 +506,7 @@
          "callback": "GetInputSettings",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -516,7 +517,7 @@
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
 			"inputSettings": { "type":"String"},
-			"?overlay": { "type":"Boolean", "default":true},
+			"?overlay": { "type":"Boolean", "default":true}
          }
       },
 	  
@@ -525,7 +526,7 @@
          "callback": "GetInputMute",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 
@@ -535,7 +536,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"inputMuted": { "type":"Boolean"},
+			"inputMuted": { "type":"Boolean"}
          }
       },
 	  
@@ -544,7 +545,7 @@
          "callback": "ToggleInputMute",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -553,7 +554,7 @@
          "callback": "GetInputVolume",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -562,12 +563,10 @@
          "callback": "SetInputVolume",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
-			"Db settings ?":{"type":"Boolean"},
-			"?inputVolumeMul": { "type":"float", "min":0, "max":20,
-								"dependency": { "source":"Db settings ?", "value":"Boolean", "check":"equals", "action":"show" } },
-			"?inputVolumeDb": { "type":"float", "min":-100, "max":26,
-								"dependency": { "source":"Db settings ?", "value":"Boolean", "check":"notEquals", "action":"show" }},
+			   "inputName": { "type":"String"},
+			   "Db settings ?":{"type":"Boolean"},
+			   "?inputVolumeMul": { "type":"Float", "min":0, "max":20, "dependency": { "source":"Db settings ?", "value":"Boolean", "check":"equals", "action":"show" } },
+			   "?inputVolumeDb": { "type":"Float", "min":-100, "max":26, "dependency": { "source":"Db settings ?", "value":"Boolean", "check":"notEquals", "action":"show" }}
          }
       },
 
@@ -576,7 +575,7 @@
          "callback": "GetInputAudioBalance",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -586,7 +585,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"inputAudioBalance": { "type":"Float", "min":0, "max":1},
+			"inputAudioBalance": { "type":"Float", "min":0, "max":1}
          }
       },
 	  
@@ -595,7 +594,7 @@
          "callback": "GetInputAudioSyncOffset",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -605,7 +604,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"inputAudioSyncOffset": { "type":"Integer", "min":-950, "max":20000},
+			"inputAudioSyncOffset": { "type":"Integer", "min":-950, "max":20000}
          }
       },
 	  
@@ -614,7 +613,7 @@
          "callback": "GetInputAudioMonitorType",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -624,7 +623,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"monitorType": { "type":"Enum", "options": { "OBS_MONITORING_TYPE_NONE":"OBS_MONITORING_TYPE_NONE", "OBS_MONITORING_TYPE_MONITOR_ONLY":"OBS_MONITORING_TYPE_MONITOR_ONLY", "OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT":"OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT" } },
+			"monitorType": { "type":"Enum", "options": { "OBS_MONITORING_TYPE_NONE":"OBS_MONITORING_TYPE_NONE", "OBS_MONITORING_TYPE_MONITOR_ONLY":"OBS_MONITORING_TYPE_MONITOR_ONLY", "OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT":"OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT" } }
          }
       },
 	  
@@ -633,7 +632,7 @@
          "callback": "GetInputAudioTracks",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -643,7 +642,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"inputAudioTracks": { "type":"String"},
+			"inputAudioTracks": { "type":"String"}
          }
       },
 	  
@@ -653,7 +652,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"propertyName": { "type":"String"},
+			"propertyName": { "type":"String"}
          }
       },
 	  
@@ -663,7 +662,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"propertyName": { "type":"String"},
+			"propertyName": { "type":"String"}
          }
       },
 	  
@@ -672,7 +671,7 @@
          "callback": "GetTransitionKindList",
          "parameters": {
             "request Id": { "type":"String"},
-			"transitionKinds": { "type":"String"},
+			"transitionKinds": { "type":"String"}
          }
       },
 	  
@@ -683,7 +682,7 @@
             "request Id": { "type":"String"},
 			"currentSceneTransitionName": { "type":"String"},
 			"currentSceneTransitionKind": { "type":"String"},
-			"transitions": { "type":"String"},
+			"transitions": { "type":"String"}
          }
       },
 	  
@@ -697,7 +696,7 @@
 			"transitionFixed": { "type":"Boolean"},
 			"transitionDuration (ms)": { "type":"Integer"},
 			"transitionConfigurable": { "type":"Boolean"},
-			"transitionSettings": { "type":"String"},
+			"transitionSettings": { "type":"String"}
          }
       },
 	  
@@ -706,7 +705,7 @@
          "callback": "SetCurrentSceneTransition",
          "parameters": {
             "request Id": { "type":"String"},
-			"transitionName": { "type":"String"},
+			"transitionName": { "type":"String"}
          }
       },
 	  
@@ -715,7 +714,7 @@
          "callback": "SetCurrentSceneTransitionDuration",
          "parameters": {
             "request Id": { "type":"String"},
-			"transitionDuration (ms)": { "type":"Integer", "min":50, "max":20000},
+			"transitionDuration (ms)": { "type":"Integer", "min":50, "max":20000}
          }
       },
 	  
@@ -725,7 +724,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"transitionSettings": { "type":"String"},
-			"?overlay": { "type":"Boolean", "default":true},
+			"?overlay": { "type":"Boolean", "default":true}
          }
       },
 	  
@@ -734,7 +733,7 @@
          "callback": "GetCurrentSceneTransitionCursor",
          "parameters": {
             "request Id": { "type":"String"},
-			"transitionCursor": { "type":"Float", "min":0.0, "max":1.0},
+			"transitionCursor": { "type":"Float", "min":0.0, "max":1.0}
          }
       },
 	  
@@ -742,7 +741,7 @@
          "menu": "Transitions Requests",
          "callback": "TriggerStudioModeTransition",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -752,7 +751,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"position": { "type":"Float", "min":0.0, "max":1.0},
-			"?release": { "type":"Boolean", "default":true},
+			"?release": { "type":"Boolean", "default":true}
          }
       },
 	  
@@ -761,7 +760,7 @@
          "callback": "GetSourceFilterList",
          "parameters": {
             "request Id": { "type":"String"},
-            "sourceName": { "type":"String"},
+            "sourceName": { "type":"String"}
          }
       },
 	  
@@ -770,7 +769,7 @@
          "callback": "GetSourceFilterDefaultSettings",
          "parameters": {
             "request Id": { "type":"String"},
-            "filterKind": { "type":"String"},
+            "filterKind": { "type":"String"}
          }
       },
 	  
@@ -782,7 +781,7 @@
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
 			"filterKind": { "type":"String"},
-			"?filterSettings": { "type":"String"},
+			"?filterSettings": { "type":"String"}
          }
       },
 	  
@@ -792,7 +791,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
-			"filterName": { "type":"String"},
+			"filterName": { "type":"String"}
          }
       },
 	  
@@ -803,7 +802,7 @@
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
-			"newFilterName": { "type":"String"},
+			"newFilterName": { "type":"String"}
          }
       },
 	  
@@ -813,7 +812,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
-			"newFilterName": { "type":"String"},
+			"newFilterName": { "type":"String"}
          }
       },
 	  
@@ -824,7 +823,7 @@
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
-			"filterIndex": { "type":"Integer","min":0},
+			"filterIndex": { "type":"Integer","min":0}
          }
       },
 	  
@@ -836,7 +835,7 @@
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
 			"filterSettings": { "type":"String"},
-			"overlay": { "type":"Boolean", "default":true},
+			"overlay": { "type":"Boolean", "default":true}
          }
       },
 	  
@@ -855,7 +854,7 @@
          "Opacity": { "type":"Float","min":0,"max":1,"default":1},
          "Color Multiply": {"type":"Color","default": [1,1,1,1]},
          "Color Add": {"type":"Color", "default": [0,0,0,1]},
-         "overlay": { "type":"Boolean", "default":true},
+         "overlay": { "type":"Boolean", "default":true}
          }
       },
 
@@ -866,7 +865,7 @@
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
-			"filterEnabled": { "type":"Boolean"},
+			"filterEnabled": { "type":"Boolean"}
          }
       },
 
@@ -875,7 +874,7 @@
          "callback": "GetSceneItemList",
          "parameters": {
             "request Id": { "type":"String"},
-            "sceneName": { "type":"String"},
+            "sceneName": { "type":"String"}
          }
       },
 	  
@@ -884,7 +883,7 @@
          "callback": "GetGroupSceneItemList",
          "parameters": {
             "request Id": { "type":"String"},
-            "sceneName": { "type":"String"},
+            "sceneName": { "type":"String"}
          }
       },
 
@@ -895,7 +894,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sourceName": { "type":"String"},
-            "?searchOffset": { "type":"Integer", "min":-1, "default":0},
+            "?searchOffset": { "type":"Integer", "min":-1, "default":0}
          }
       },
 	  
@@ -906,7 +905,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sourceName": { "type":"String"},
-            "?sceneItemEnabled": { "type":"Boolean", "default": true},
+            "?sceneItemEnabled": { "type":"Boolean", "default": true}
          }
       },
 	  
@@ -916,7 +915,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"Integer", "min":0},
+            "sceneItemId": { "type":"Integer", "min":0}
          }
       },
 	  
@@ -927,7 +926,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sceneId": { "type":"Integer", "min":0},
-			"?destinationSceneName": { "type":"String"},
+			"?destinationSceneName": { "type":"String"}
          }
       },
 
@@ -937,7 +936,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"Integer", "min":0},
+            "sceneItemId": { "type":"Integer", "min":0}
          }
       },
 
@@ -948,7 +947,14 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sceneItemId": { "type":"Integer", "min":0},
-            "sceneItemTransform": { "type":"String"},
+            "positionX ?":{"type":"Boolean"},
+            "positionX": { "type":"Float", "dependency": { "source":"positionX ?", "value":"Boolean", "check":"notEquals", "action":"show" }},
+            "positionY ?":{"type":"Boolean"},
+            "positionY": { "type":"Float", "dependency": { "source":"positionY ?", "value":"Boolean", "check":"notEquals", "action":"show" }},
+            "scaleX ?":{"type":"Boolean"},
+            "scaleX": { "type":"Float", "dependency": { "source":"scaleX ?", "value":"Boolean", "check":"notEquals", "action":"show" }},
+            "scaleY ?":{"type":"Boolean"},
+            "scaleY": { "type":"Float", "dependency": { "source":"scaleY ?", "value":"Boolean", "check":"notEquals", "action":"show" }}
          }
       },
 	  
@@ -958,7 +964,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"Integer", "min":0},
+            "sceneItemId": { "type":"Integer", "min":0}
          }
       },
 	  
@@ -969,7 +975,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sceneItemId": { "type":"Integer", "min":0},
-            "sceneItemEnabled": { "type":"Boolean"},
+            "sceneItemEnabled": { "type":"Boolean"}
          }
       },
 	  
@@ -979,7 +985,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"Integer", "min":0},
+            "sceneItemId": { "type":"Integer", "min":0}
          }
       },
 	  
@@ -990,7 +996,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sceneItemId": { "type":"Integer", "min":0},
-            "sceneItemLocked": { "type":"Boolean"},
+            "sceneItemLocked": { "type":"Boolean"}
          }
       },
 	  
@@ -1000,7 +1006,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"Integer", "min":0},
+            "sceneItemId": { "type":"Integer", "min":0}
          }
       },
 	  
@@ -1011,7 +1017,7 @@
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
             "sceneItemId": { "type":"Integer", "min":0},
-            "sceneItemIndex": { "type":"Integer", "min":0},
+            "sceneItemIndex": { "type":"Integer", "min":0}
          }
       },
 	  
@@ -1021,7 +1027,7 @@
          "parameters": {
             "request Id": { "type":"String"},
             "sceneName": { "type":"String"},
-            "sceneItemId": { "type":"Integer", "min":0},
+            "sceneItemId": { "type":"Integer", "min":0}
          }
       },
 	  
@@ -1039,7 +1045,7 @@
 				"OBS_BLEND_SCREEN":"OBS_BLEND_SCREEN",
 				"OBS_BLEND_MULTIPLY":"OBS_BLEND_MULTIPLY",
 				"OBS_BLEND_LIGHTEN":"OBS_BLEND_LIGHTEN",
-				"OBS_BLEND_DARKEN":"OBS_BLEND_DARKEN",  } }
+				"OBS_BLEND_DARKEN":"OBS_BLEND_DARKEN"  } }
          }
       },
 	  
@@ -1047,7 +1053,7 @@
          "menu": "Outputs Requests",
          "callback": "GetVirtualCamStatus",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1055,7 +1061,7 @@
          "menu": "Outputs Requests",
          "callback": "ToggleVirtualCam",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1063,7 +1069,7 @@
          "menu": "Outputs Requests",
          "callback": "StartVirtualCam",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1071,7 +1077,7 @@
          "menu": "Outputs Requests",
          "callback": "StopVirtualCam",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1079,7 +1085,7 @@
          "menu": "Outputs Requests",
          "callback": "GetReplayBufferStatus",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1087,7 +1093,7 @@
          "menu": "Outputs Requests",
          "callback": "ToggleReplayBuffer",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1095,7 +1101,7 @@
          "menu": "Outputs Requests",
          "callback": "StartReplayBuffer",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1103,7 +1109,7 @@
          "menu": "Outputs Requests",
          "callback": "StopReplayBuffer",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1111,7 +1117,7 @@
          "menu": "Outputs Requests",
          "callback": "SaveReplayBuffer",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1119,7 +1125,7 @@
          "menu": "Outputs Requests",
          "callback": "GetLastReplayBufferReplay",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1127,7 +1133,7 @@
          "menu": "Outputs Requests",
          "callback": "GetOutputList",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1136,7 +1142,7 @@
          "callback": "GetOutputStatus",
          "parameters": {
             "request Id": { "type":"String"},
-			"outputName": { "type":"String"},
+			"outputName": { "type":"String"}
          }
       },
 	  
@@ -1145,7 +1151,7 @@
          "callback": "ToggleOutput",
          "parameters": {
             "request Id": { "type":"String"},
-			"outputName": { "type":"String"},
+			"outputName": { "type":"String"}
          }
       },
 	  
@@ -1154,7 +1160,7 @@
          "callback": "StartOutput",
          "parameters": {
             "request Id": { "type":"String"},
-			"outputName": { "type":"String"},
+			"outputName": { "type":"String"}
          }
       },
 
@@ -1163,7 +1169,7 @@
          "callback": "StopOutput",
          "parameters": {
             "request Id": { "type":"String"},
-			"outputName": { "type":"String"},
+			"outputName": { "type":"String"}
          }
       },
 	  
@@ -1172,7 +1178,7 @@
          "callback": "GetOutputSettings",
          "parameters": {
             "request Id": { "type":"String"},
-			"outputName": { "type":"String"},
+			"outputName": { "type":"String"}
          }
       },
 	  
@@ -1182,7 +1188,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"outputName": { "type":"String"},
-			"outputSettings": { "type":"String"},
+			"outputSettings": { "type":"String"}
          }
       },
 	  
@@ -1190,7 +1196,7 @@
          "menu": "Stream Requests",
          "callback": "GetStreamStatus",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1198,7 +1204,7 @@
          "menu": "Stream Requests",
          "callback": "ToggleStream",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1206,7 +1212,7 @@
          "menu": "Stream Requests",
          "callback": "StartStream",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1214,7 +1220,7 @@
          "menu": "Stream Requests",
          "callback": "StopStream",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1223,7 +1229,7 @@
          "callback": "SendStreamCaption",
          "parameters": {
             "request Id": { "type":"String"},
-			"captionText": { "type":"String"},
+			"captionText": { "type":"String"}
          }
       },
 	  
@@ -1231,7 +1237,7 @@
          "menu": "Record Requests",
          "callback": "GetRecordStatus",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1239,7 +1245,7 @@
          "menu": "Record Requests",
          "callback": "ToggleRecord",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1247,7 +1253,7 @@
          "menu": "Record Requests",
          "callback": "StartRecord",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1255,7 +1261,7 @@
          "menu": "Record Requests",
          "callback": "StopRecord",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1263,7 +1269,7 @@
          "menu": "Record Requests",
          "callback": "ToggleRecordPause",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1271,7 +1277,7 @@
          "menu": "Record Requests",
          "callback": "PauseRecord",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1279,7 +1285,7 @@
          "menu": "Record Requests",
          "callback": "ResumeRecord",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1288,7 +1294,7 @@
          "callback": "GetMediaInputStatus",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -1298,7 +1304,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"mediaCursor": { "type":"Float", "min":0},
+			"mediaCursor": { "type":"Float", "min":0}
          }
       },
 	  
@@ -1308,7 +1314,7 @@
          "parameters": {
             "request Id": { "type":"String"},
 			"inputName": { "type":"String"},
-			"mediaCursorOffset": { "type":"Float"},
+			"mediaCursorOffset": { "type":"Float"}
          }
       },
 	  
@@ -1326,7 +1332,7 @@
 				"OBS_MEDIA_STATE_PAUSED":"OBS_MEDIA_STATE_PAUSED",
 				"OBS_MEDIA_STATE_STOPPED":"OBS_MEDIA_STATE_STOPPED",
 				"OBS_MEDIA_STATE_ENDED":"OBS_MEDIA_STATE_ENDED",
-				"OBS_MEDIA_STATE_ERROR":"OBS_MEDIA_STATE_ERROR",} }
+				"OBS_MEDIA_STATE_ERROR":"OBS_MEDIA_STATE_ERROR"} }
          }
       },
 	  
@@ -1334,7 +1340,7 @@
          "menu": "UI Requests",
          "callback": "GetStudioModeEnabled",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 
@@ -1343,7 +1349,7 @@
          "callback": "SetStudioModeEnabled",
          "parameters": {
             "request Id": { "type":"String"},
-			"studioModeEnabled": { "type":"Boolean"},
+			"studioModeEnabled": { "type":"Boolean"}
          }
       },
 	  
@@ -1352,7 +1358,7 @@
          "callback": "OpenInputPropertiesDialog",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -1361,7 +1367,7 @@
          "callback": "OpenInputFiltersDialog",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -1370,7 +1376,7 @@
          "callback": "OpenInputInteractDialog",
          "parameters": {
             "request Id": { "type":"String"},
-			"inputName": { "type":"String"},
+			"inputName": { "type":"String"}
          }
       },
 	  
@@ -1378,7 +1384,7 @@
          "menu": "UI Requests",
          "callback": "GetMonitorList",
          "parameters": {
-            "request Id": { "type":"String"},
+            "request Id": { "type":"String"}
          }
       },
 	  
@@ -1390,9 +1396,9 @@
 			"videoMixType": { "type":"Enum", "options": { 
 				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PREVIEW":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PREVIEW",
 				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PROGRAM":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_PROGRAM",
-				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW",} },
+				"OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW":"OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW"} },
 			"?monitorIndex Id": { "type":"Integer"},
-			"?projectorGeometry Id": { "type":"String"},
+			"?projectorGeometry Id": { "type":"String"}
          }
       },
 	  
@@ -1403,8 +1409,8 @@
             "request Id": { "type":"String"},
 			"sourceName": { "type":"String"},
 			"?monitorIndex": { "type":"Integer"},
-			"?projectorGeometry": { "type":"String"},
+			"?projectorGeometry": { "type":"String"}
          }
-      },
+      }
    }
 }
