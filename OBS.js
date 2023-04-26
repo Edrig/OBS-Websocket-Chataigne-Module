@@ -53,22 +53,27 @@ function valueStringContainerParameter(container, value, data) {
 		}
 }
 
-function valueIntegerContainerParameter(container, value, data) {
-	local.values.addContainer(container);
-	if (local.values.getChild(container).getChild(value) == null) {
-	local.values.getChild(container).addIntParameter(value,"", data);
-	local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
-	}
-		else {
-			local.values.getChild(container).getChild(value).set(data);
-		}
-}
-
 function colorToInt(color) {
 	var r = parseInt(color[0]*255);
 	var g = parseInt(color[1]*255);
 	var b = parseInt(color[2]*255);
 	return r + (g << 0x8) + (b << 0x10);
+}
+
+function removeAllValues() {
+	local.values.removeContainer("Scenes");
+	local.values.removeContainer("Inputs");
+	local.values.removeParameter ("CurrentScene");
+	local.values.removeContainer("Groups");
+	local.values.removeParameter ("CurrentCollection");
+	local.values.removeContainer("Collections");
+	local.values.removeParameter("outputActive");
+	local.values.removeParameter("outputState");
+	local.values.removeParameter("RecordStateChanged");
+	local.values.removeContainer("Audio Input");
+	local.values.removeContainer("Stream");
+	local.values.removeContainer("Record");
+	script.logWarning("All values have been deleted");
 }
 
 /*
@@ -77,19 +82,7 @@ function colorToInt(color) {
 */
 function moduleValueChanged(value) {
 	if(value.name == "removeAllValues") {
-		local.values.removeContainer("Scenes");
-		local.values.removeParameter ("CurrentScene");
-		local.values.removeContainer("Groups");
-		local.values.removeParameter ("CurrentCollection");
-		local.values.removeContainer("Collections");
-		local.values.removeParameter("outputActive");
-		local.values.removeParameter("outputState");
-		local.values.removeParameter("RecordStateChanged");
-		local.values.removeContainer("Audio Input");
-		local.values.removeContainer("Stream");
-		local.values.removeContainer("Record");
-		local.values.removeContainer("sceneItemEnabled");
-		script.logWarning("All values have been deleted");
+		removeAllValues();
 	}
 }
 
@@ -114,7 +107,9 @@ function wsMessageReceived(message) {
 	}
 	else if (obsObj.op == 2) {
 		//TODO
+		removeAllValues();
 		GetSceneList(7);
+		GetInputList(7);
 		GetCurrentProgramScene(7);
 	}
 	/* ************ CHANGED VALUES WITH MESSAGE RECEIVED ******************** */
@@ -135,15 +130,45 @@ function wsMessageReceived(message) {
 	//GetSceneList
 	if (d.requestType == "GetSceneList") {
 		var n = 0;
-		local.values.addContainer("Scenes");
+		if(local.values.getChild("Scenes") == null){
+			local.values.addContainer("Scenes");
+		}
 		valueStringParameter("CurrentScene", d.responseData.currentProgramSceneName);
-
 		while (d.responseData['scenes'][n].sceneIndex != null) {
 			var index = d.responseData['scenes'][n].sceneIndex;
 			var scene = d.responseData['scenes'][n].sceneName;
-			local.values.getChild("Scenes").addContainer(scene);
-			local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneIndex","",index);
-			local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").setAttribute("readonly" ,true);
+			if (local.values.getChild("Scenes").getChild(scene) == null) {
+				local.values.getChild("Scenes").addContainer(scene);
+				local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneIndex","",index);
+				local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").setAttribute("readonly" ,true);
+				local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneName","",scene);
+				local.values.getChild("Scenes").getChild(scene).getChild("sceneName").setAttribute("readonly" ,true);
+			}
+			local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").set(index);
+			local.values.getChild("Scenes").getChild(scene).getChild("sceneName").set(scene);
+			GetSceneItemList("updateSceneContainer_"+scene, scene);
+			n++;
+		}
+	}
+
+	//GetInputList
+	if (d.requestType == "GetInputList") {
+		var n = 0;
+		if(local.values.getChild("Inputs") == null){
+			local.values.addContainer("Inputs");
+		}
+		while (d.responseData['inputs'][n].inputKind != null) {
+			var inputKind = d.responseData['inputs'][n].inputKind;
+			var inputName = d.responseData['inputs'][n].inputName;
+			if (local.values.getChild("Inputs").getChild(inputName) == null) {
+				local.values.getChild("Inputs").addContainer(inputName);
+				local.values.getChild("Inputs").getChild(inputName).addStringParameter("inputName","",inputName);
+				local.values.getChild("Inputs").getChild(inputName).getChild("inputName").setAttribute("readonly" ,true);
+				local.values.getChild("Inputs").getChild(inputName).addStringParameter("inputKind","",scene);
+				local.values.getChild("Inputs").getChild(inputName).getChild("inputKind").setAttribute("readonly" ,true);
+			}
+			local.values.getChild("Inputs").getChild(inputName).getChild("inputName").set(inputName);
+			local.values.getChild("Inputs").getChild(inputName).getChild("inputKind").set(inputKind);
 			n++;
 		}
 	}
@@ -156,7 +181,6 @@ function wsMessageReceived(message) {
 	//SetCurrentProgramScene
 	if (d.requestType == "SetCurrentProgramScene") {
 		valueStringParameter("CurrentScene", tempo);
-
 	}
 	
 	//GetGroupList
@@ -174,17 +198,18 @@ function wsMessageReceived(message) {
 	//GetSceneItemList
 	if (d.requestType == "GetSceneItemList") {
 		var n = 0;
-		local.values.addContainer("Scenes");
+		//local.values.addContainer("Scenes");
+		var scene = d.requestId.replace("updateSceneContainer_", "");
 		while (d.responseData['sceneItems'][n].sourceName!= null) {
 			var sceneItemId = d.responseData['sceneItems'][n].sceneItemId;
 			var sourceName = d.responseData['sceneItems'][n].sourceName;
-			local.values.getChild("Scenes").getChild(tempo).addContainer(sourceName);
-			if (local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem") == null) {
-				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).addStringParameter("IndexItem","",sceneItemId);
-				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem").setAttribute("readonly" ,true);
+			local.values.getChild("Scenes").getChild(scene).addContainer(sourceName);
+			if (local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem") == null) {
+				local.values.getChild("Scenes").getChild(scene).getChild(sourceName).addStringParameter("IndexItem","",sceneItemId);
+				local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem").setAttribute("readonly" ,true);
 			}
 			else {
-				local.values.getChild("Scenes").getChild(tempo).getChild(sourceName).getChild("IndexItem").set(sceneItemId);
+				local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem").set(sceneItemId);
 			}
 			n++;
 		}
@@ -204,13 +229,6 @@ function wsMessageReceived(message) {
 	//CurrentProgramSceneChanged Event
 	if (d.eventType == "CurrentProgramSceneChanged") {
 		valueStringParameter("CurrentScene", d.eventData.sceneName);
-	}
-	
-	//SceneItemEnableStateChanged Event
-	if (d.eventType == "SceneItemEnableStateChanged") {
-		valueBoolContainerParameter("sceneItemEnabled", "sceneItemEnabled", d.eventData.sceneItemEnabled);
-		valueIntegerContainerParameter("sceneItemEnabled", "sceneItemId", d.eventData.sceneItemId);
-		valueStringContainerParameter("sceneItemEnabled", "sceneName", d.eventData.sceneName);
 	}
 
 	//InputMuteStateChanged
@@ -889,11 +907,27 @@ function GetSceneItemTransform(reqId, sceneName, sceneItemId) {
 	sendObsCommand("GetSceneItemTransform", data, reqId);
 }
 
-function SetSceneItemTransform(reqId, sceneName, sceneItemId,sceneItemTransform) {
+function SetSceneItemTransform(reqId, sceneName, sceneItemId, positionXBool, positionX, positionYBool, positionY, scaleXBool, scaleX, scaleYBool, scaleY) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
-	data["sceneItemTransform"] = JSON.parse(sceneItemTransform);
+	//
+	data["sceneItemTransform"] = {};
+	script.log("positionXBool = "+positionXBool);
+	script.log("positionX = "+positionX);
+	if (positionXBool == true ) {
+		data["sceneItemTransform"]["positionX"] = positionX;
+	}
+	if (positionYBool == true ) {
+		data["sceneItemTransform"]["positionY"] = positionY;
+	}
+	if (scaleXBool == true ) {
+		data["sceneItemTransform"]["scaleX"] = scaleX;
+	}
+	if (scaleYBool == true ) {
+		data["sceneItemTransform"]["scaleY"] = scaleY;
+	}
+	//data["sceneItemTransform"] = JSON.parse(sceneItemTransform);
 	sendObsCommand("SetSceneItemTransform", data, reqId);
 }
 
