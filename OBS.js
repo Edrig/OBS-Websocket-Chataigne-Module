@@ -53,6 +53,24 @@ function valueStringContainerParameter(container, value, data) {
 		}
 }
 
+function valueIntegerContainerParameter(container, value, data) {
+	local.values.addContainer(container);
+	if (local.values.getChild(container).getChild(value) == null) {
+	local.values.getChild(container).addIntParameter(value,"", data);
+	local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
+	}
+		else {
+			local.values.getChild(container).getChild(value).set(data);
+		}
+}
+
+function colorToInt(color) {
+	var r = parseInt(color[0]*255);
+	var g = parseInt(color[1]*255);
+	var b = parseInt(color[2]*255);
+	return r + (g << 0x8) + (b << 0x10);
+}
+
 /*
  This function will be called each time a value of this module has changed, meaning a parameter or trigger inside the "Values" panel of this module
  This function only exists because the script is in a module
@@ -70,6 +88,7 @@ function moduleValueChanged(value) {
 		local.values.removeContainer("Audio Input");
 		local.values.removeContainer("Stream");
 		local.values.removeContainer("Record");
+		local.values.removeContainer("sceneItemEnabled");
 		script.logWarning("All values have been deleted");
 	}
 }
@@ -185,6 +204,13 @@ function wsMessageReceived(message) {
 	//CurrentProgramSceneChanged Event
 	if (d.eventType == "CurrentProgramSceneChanged") {
 		valueStringParameter("CurrentScene", d.eventData.sceneName);
+	}
+	
+	//SceneItemEnableStateChanged Event
+	if (d.eventType == "SceneItemEnableStateChanged") {
+		valueBoolContainerParameter("sceneItemEnabled", "sceneItemEnabled", d.eventData.sceneItemEnabled);
+		valueIntegerContainerParameter("sceneItemEnabled", "sceneItemId", d.eventData.sceneItemId);
+		valueStringContainerParameter("sceneItemEnabled", "sceneName", d.eventData.sceneName);
 	}
 
 	//InputMuteStateChanged
@@ -784,6 +810,23 @@ function SetSourceFilterSettings(reqId, sourceName, filterName, filterSettings, 
 	sendObsCommand("SetSourceFilterSettings", data, reqId);
 }
 
+function SetSourceFilterColorCorrectionSettings(reqId, sourceName, filterName, gamma, contrast, brightness, saturation, hue, opacity, colorMultiply, colorAdd, overlay) {
+	var data = {};
+	data["sourceName"] = sourceName;
+	data["filterName"] = filterName;
+	data["filterSettings"] = {
+		"gamma":gamma,
+		"contrast":contrast,
+		"brightness":brightness,
+		"saturation":saturation,
+		"hue_shift":hue,
+		"opacity":opacity,
+		"color_multiply": colorToInt(colorMultiply),
+		"color_add": colorToInt(colorAdd)
+	};
+	data["overlay"] = overlay;
+	sendObsCommand("SetSourceFilterSettings", data, reqId);
+}
 
 function SetSourceFilterEnabled(reqId, sourceName, filterName, filterEnabled) {
 	var data = {};

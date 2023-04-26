@@ -835,11 +835,30 @@
             "request Id": { "type":"String"},
             "sourceName": { "type":"String"},
 			"filterName": { "type":"String"},
-			"filterSettings": { "type":"Integer","min":0},
+			"filterSettings": { "type":"String"},
 			"overlay": { "type":"Boolean", "default":true},
          }
       },
 	  
+      "SetSourceFilterColorCorrectionSettings": {
+         "menu": "Filters Requests",
+         "callback": "SetSourceFilterColorCorrectionSettings",
+         "parameters": {
+            "request Id": { "type":"String"},
+            "sourceName": { "type":"String"},
+         "filterName": { "type":"String"},
+         "Gamma": { "type":"Float","min":-3,"max":3,"default":0},
+         "Contrast": { "type":"Float","min":-4,"max":4,"default":0},
+         "Brightness": { "type":"Float","min":-1,"max":1,"default":0},
+         "Saturation": { "type":"Float","min":-1,"max":5,"default":0},
+         "Hue Shift": { "type":"Float","min":-180,"max":180,"default":0},
+         "Opacity": { "type":"Float","min":0,"max":1,"default":1},
+         "Color Multiply": {"type":"Color","default": [1,1,1,1]},
+         "Color Add": {"type":"Color", "default": [0,0,0,1]},
+         "overlay": { "type":"Boolean", "default":true},
+         }
+      },
+
 	   "SetSourceFilterEnabled": {
          "menu": "Filters Requests",
          "callback": "SetSourceFilterEnabled",
