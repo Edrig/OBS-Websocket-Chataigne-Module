@@ -1,71 +1,73 @@
-var tempo ="";
-function parseHex(str)
-{
-    var result = [];
-    for(var i=0;i<str.length;i+=2)
-    {
-        var n = parseInt("0x"+str.substring(i,i+2));
-        result.push(n);
-    }
-    return result;
+var tempo = "";
+var OBSSave = {};
+var EnumScenes = {};
+var EnumItems = {};
+
+function parseHex(str) {
+	var result = [];
+	for (var i = 0; i < str.length; i += 2) {
+		var n = parseInt("0x" + str.substring(i, i + 2));
+		result.push(n);
+	}
+	return result;
 }
 
 /* Utilitary Function */
 function valueBoolParameter(value, data) {
 	if (local.values.getChild(value) == null) {
-			local.values.addBoolParameter(value,"", data);
-			local.values.getChild(value).setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild(value).set(data);
-		}
+		local.values.addBoolParameter(value, "", data);
+		local.values.getChild(value).setAttribute("readonly", true);
+	}
+	else {
+		local.values.getChild(value).set(data);
+	}
 }
 
 function valueStringParameter(value, data) {
 	if (local.values.getChild(value) == null) {
-			local.values.addStringParameter(value,"", data);
-			local.values.getChild(value).setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild(value).set(data);
-		}
+		local.values.addStringParameter(value, "", data);
+		local.values.getChild(value).setAttribute("readonly", true);
+	}
+	else {
+		local.values.getChild(value).set(data);
+	}
 }
 
 function valueBoolContainerParameter(container, value, data) {
-		local.values.addContainer(container);
-		if (local.values.getChild(container).getChild(value) == null) {
-			local.values.getChild(container).addBoolParameter(value,"", data);
-			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild(container).getChild(value).set(data);
-		}
+	local.values.addContainer(container);
+	if (local.values.getChild(container).getChild(value) == null) {
+		local.values.getChild(container).addBoolParameter(value, "", data);
+		local.values.getChild(container).getChild(value).setAttribute("readonly", true);
+	}
+	else {
+		local.values.getChild(container).getChild(value).set(data);
+	}
 }
 
 function valueStringContainerParameter(container, value, data) {
 	local.values.addContainer(container);
 	if (local.values.getChild(container).getChild(value) == null) {
-			local.values.getChild(container).addStringParameter(value,"", data);
-			local.values.getChild(container).getChild(value).setAttribute("readonly" ,true);
-		}
-		else {
-			local.values.getChild(container).getChild(value).set(data);
-		}
+		local.values.getChild(container).addStringParameter(value, "", data);
+		local.values.getChild(container).getChild(value).setAttribute("readonly", true);
+	}
+	else {
+		local.values.getChild(container).getChild(value).set(data);
+	}
 }
 
 function colorToInt(color) {
-	var r = parseInt(color[0]*255);
-	var g = parseInt(color[1]*255);
-	var b = parseInt(color[2]*255);
+	var r = parseInt(color[0] * 255);
+	var g = parseInt(color[1] * 255);
+	var b = parseInt(color[2] * 255);
 	return r + (g << 0x8) + (b << 0x10);
 }
 
 function removeAllValues() {
 	local.values.removeContainer("Scenes");
 	local.values.removeContainer("Inputs");
-	local.values.removeParameter ("CurrentScene");
+	local.values.removeParameter("CurrentScene");
 	local.values.removeContainer("Groups");
-	local.values.removeParameter ("CurrentCollection");
+	local.values.removeParameter("CurrentCollection");
 	local.values.removeContainer("Collections");
 	local.values.removeParameter("outputActive");
 	local.values.removeParameter("outputState");
@@ -81,12 +83,20 @@ function removeAllValues() {
  This function only exists because the script is in a module
 */
 function moduleValueChanged(value) {
-	if(value.name == "removeAllValues") {
+	if (value.name == "removeAllValues") {
 		removeAllValues();
 	}
 }
 
 
+function toDecimal(v) {
+	var binary = v.split();
+	var decimal = 0;
+	for (var i = 0; i < binary.length; i++) {
+		decimal = (decimal * 2) + parseInt(binary[i]);
+	}
+	return decimal;
+}
 
 /* ************************************************************************* */
 /* ***************** WEBSOCKET  MESSAGE RECEIVED *************************** */
@@ -95,22 +105,25 @@ function wsMessageReceived(message) {
 	/* ************************* CONNECTION ******************************** */
 	var obsObj = JSON.parse(message);
 	var d = obsObj.d;
-	var eventSub = local.parameters.eventSub_Int.get();
+	
 	if (obsObj.op == 0 && d.authentication != null) {
+		var newEventSub = "1" + (local.parameters.eventSub.sceneItemTransformChanged.get() ? "1" : "0") + (local.parameters.eventSub.inputShowStateChanged.get() ? "1" : "0") + (local.parameters.eventSub.inputActiveStateChanged.get() ? "1" : "0") + (local.parameters.eventSub.inputVolumeMeters.get() ? "1" : "0") + "00000" + (local.parameters.eventSub.ui.get() ? "1" : "0") + (local.parameters.eventSub.vendors.get() ? "1" : "0") + (local.parameters.eventSub.mediaInputs.get() ? "1" : "0") + (local.parameters.eventSub.sceneItems.get() ? "1" : "0") + (local.parameters.eventSub.outputs.get() ? "1" : "0") + (local.parameters.eventSub.filters.get() ? "1" : "0") + (local.parameters.eventSub.transitions.get() ? "1" : "0") + (local.parameters.eventSub.inputs.get() ? "1" : "0") + (local.parameters.eventSub.scenes.get() ? "1" : "0") + (local.parameters.eventSub.config.get() ? "1" : "0") + (local.parameters.eventSub.general.get() ? "1" : "0");
 		var mdp = local.parameters.password.get() + d.authentication.salt;
 		var Encode1 = util.toBase64(parseHex(util.encodeSHA256(mdp)));
 		var Encode2 = util.toBase64(parseHex(util.encodeSHA256(Encode1 + d.authentication.challenge)));
-		local.send('{"d":{"authentication": "'+Encode2+'", "eventSubscriptions": '+eventSub+', "rpcVersion": 1}, "op": 1}');
+		local.send('{"d":{"authentication": "' + Encode2 + '", "eventSubscriptions": ' + toDecimal(newEventSub) + ', "rpcVersion": 1}, "op": 1}');
 	}
 	else if (obsObj.op == 0) {
-		local.send('{"op": 1,"d": {"rpcVersion": 1,"authentication": "Chataigne","eventSubscriptions": '+eventSub+'} }');
+		local.send('{"op": 1,"d": {"rpcVersion": 1,"authentication": "Chataigne","eventSubscriptions": ' + toDecimal(newEventSub) + '} }');
 	}
 	else if (obsObj.op == 2) {
 		//TODO
+		GetStudioModeEnabled(7);
 		removeAllValues();
 		GetSceneList(7);
 		GetInputList(7);
 		GetCurrentProgramScene(7);
+		
 	}
 	/* ************ CHANGED VALUES WITH MESSAGE RECEIVED ******************** */
 	//GetSceneCollectionList
@@ -118,43 +131,61 @@ function wsMessageReceived(message) {
 		var n = 0;
 		local.values.addContainer("Collections");
 		valueStringParameter("CurrentCollection", d.responseData.currentSceneCollectionName);
-
 		while (d.responseData.sceneCollections[n] != null) {
 			var collection = d.responseData.sceneCollections[n];
-			local.values.getChild("Collections").addStringParameter("Collection"+n,"",collection);
-			local.values.getChild("Collections").getChild("Collection"+n).setAttribute("readonly" ,true);
+			local.values.getChild("Collections").addStringParameter("Collection" + n, "", collection);
+			local.values.getChild("Collections").getChild("Collection" + n).setAttribute("readonly", true);
 			n++;
 		}
 	}
-	
+
+	if (d.requestType == "GetStudioModeEnabled") {
+		local.values.controlsStatus.studioModeStatus.set(d.responseData.studioModeEnabled);
+		if (d.responseData.studioModeEnabled){
+			GetCurrentPreviewScene(7);
+		}
+	}
 	//GetSceneList
 	if (d.requestType == "GetSceneList") {
 		var n = 0;
-		if(local.values.getChild("Scenes") == null){
+		if (local.values.getChild("Scenes") == null) {
 			local.values.addContainer("Scenes");
+			EnumScenes = local.values.getChild("Scenes").addEnumParameter("Slct Scene", "The scene selected for controller");
+			EnumItems = local.values.getChild("Scenes").addEnumParameter("Slct Item", "The item selected for controller");
 		}
-		valueStringParameter("CurrentScene", d.responseData.currentProgramSceneName);
+
 		while (d.responseData['scenes'][n].sceneIndex != null) {
 			var index = d.responseData['scenes'][n].sceneIndex;
 			var scene = d.responseData['scenes'][n].sceneName;
 			if (local.values.getChild("Scenes").getChild(scene) == null) {
 				local.values.getChild("Scenes").addContainer(scene);
-				local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneIndex","",index);
-				local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").setAttribute("readonly" ,true);
-				local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneName","",scene);
-				local.values.getChild("Scenes").getChild(scene).getChild("sceneName").setAttribute("readonly" ,true);
+				local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneIndex", "", index);
+				local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").setAttribute("readonly", true);
+				local.values.getChild("Scenes").getChild(scene).addStringParameter("sceneName", "", scene);
+				local.values.getChild("Scenes").getChild(scene).getChild("sceneName").setAttribute("readonly", true);
 			}
 			local.values.getChild("Scenes").getChild(scene).getChild("sceneIndex").set(index);
 			local.values.getChild("Scenes").getChild(scene).getChild("sceneName").set(scene);
-			GetSceneItemList("updateSceneContainer_"+scene, scene);
+			GetSceneItemList("updateSceneContainer_" + scene, scene);
+			OBSSave[scene] = {};
+			//local.values.getChild("Scenes").getChild("Slct Scene").addOption(scene,index);
+			EnumScenes.addOption(scene, scene);
 			n++;
+		}
+		valueStringParameter("CurrentScene", d.responseData.currentProgramSceneName);
+		if (d.responseData.currentPreviewSceneName != null) {
+			EnumScenes.set(d.responseData.currentPreviewSceneName);
+			GetSceneItemList("active_items_" + d.responseData.currentPreviewSceneName, d.responseData.currentPreviewSceneName);
+		} else {
+			EnumScenes.set(d.responseData.currentProgramSceneName);
+			GetSceneItemList("active_items_" + d.responseData.currentProgramSceneName, d.responseData.currentProgramSceneName);
 		}
 	}
 
 	//GetInputList
 	if (d.requestType == "GetInputList") {
 		var n = 0;
-		if(local.values.getChild("Inputs") == null){
+		if (local.values.getChild("Inputs") == null) {
 			local.values.addContainer("Inputs");
 		}
 		while (d.responseData['inputs'][n].inputKind != null) {
@@ -162,56 +193,96 @@ function wsMessageReceived(message) {
 			var inputName = d.responseData['inputs'][n].inputName;
 			if (local.values.getChild("Inputs").getChild(inputName) == null) {
 				local.values.getChild("Inputs").addContainer(inputName);
-				local.values.getChild("Inputs").getChild(inputName).addStringParameter("inputName","",inputName);
-				local.values.getChild("Inputs").getChild(inputName).getChild("inputName").setAttribute("readonly" ,true);
-				local.values.getChild("Inputs").getChild(inputName).addStringParameter("inputKind","",scene);
-				local.values.getChild("Inputs").getChild(inputName).getChild("inputKind").setAttribute("readonly" ,true);
+				local.values.getChild("Inputs").getChild(inputName).addStringParameter("inputName", "", inputName);
+				local.values.getChild("Inputs").getChild(inputName).getChild("inputName").setAttribute("readonly", true);
+				local.values.getChild("Inputs").getChild(inputName).addStringParameter("inputKind", "", scene);
+				local.values.getChild("Inputs").getChild(inputName).getChild("inputKind").setAttribute("readonly", true);
 			}
 			local.values.getChild("Inputs").getChild(inputName).getChild("inputName").set(inputName);
 			local.values.getChild("Inputs").getChild(inputName).getChild("inputKind").set(inputKind);
 			n++;
 		}
 	}
-	
+
 	//GetCurrentProgramScene
 	if (d.requestType == "GetCurrentProgramScene") {
 		valueStringParameter("CurrentScene", d.responseData.currentProgramSceneName);
+		if (!local.values.controlsStatus.studioModeStatus.get()){
+			EnumScenes.set(d.responseData.currentProgramSceneName);
+			GetSceneItemList("active_items_" + d.responseData.currentProgramSceneName, d.responseData.currentProgramSceneName);
+		}
 	}
-	
+
 	//SetCurrentProgramScene
 	if (d.requestType == "SetCurrentProgramScene") {
 		valueStringParameter("CurrentScene", tempo);
 	}
-	
+
 	//GetGroupList
 	if (d.requestType == "GetGroupList") {
 		var n = 0;
 		local.values.addContainer("Groups");
 		while (d.responseData.groups[n] != null) {
 			var group = d.responseData.groups[n];
-			local.values.getChild("Groups").addStringParameter("NameGroup"+n,"",group);
-			local.values.getChild("Groups").getChild("NameGroup"+n).setAttribute("readonly" ,true);
+			local.values.getChild("Groups").addStringParameter("NameGroup" + n, "", group);
+			local.values.getChild("Groups").getChild("NameGroup" + n).setAttribute("readonly", true);
 			n++;
 		}
 	}
-	
+
 	//GetSceneItemList
 	if (d.requestType == "GetSceneItemList") {
 		var n = 0;
 		//local.values.addContainer("Scenes");
-		var scene = d.requestId.replace("updateSceneContainer_", "");
-		while (d.responseData['sceneItems'][n].sourceName!= null) {
-			var sceneItemId = d.responseData['sceneItems'][n].sceneItemId;
-			var sourceName = d.responseData['sceneItems'][n].sourceName;
-			local.values.getChild("Scenes").getChild(scene).addContainer(sourceName);
-			if (local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem") == null) {
-				local.values.getChild("Scenes").getChild(scene).getChild(sourceName).addStringParameter("IndexItem","",sceneItemId);
-				local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem").setAttribute("readonly" ,true);
+		if (d.requestId.startsWith("updateSceneContainer_")) {
+			var scene = d.requestId.replace("updateSceneContainer_", "");
+			while (d.responseData['sceneItems'][n].sourceName != null) {
+				var sceneItemId = d.responseData['sceneItems'][n].sceneItemId;
+				var sourceName = d.responseData['sceneItems'][n].sourceName;
+				local.values.getChild("Scenes").getChild(scene).addContainer(sourceName);
+				if (local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem") == null) {
+					local.values.getChild("Scenes").getChild(scene).getChild(sourceName).addStringParameter("IndexItem", "", sceneItemId);
+					local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem").setAttribute("readonly", true);
+				}
+				else {
+					local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem").set(sceneItemId);
+				}
+				OBSSave[scene][sourceName] = {};
+				OBSSave[scene][sourceName]['sceneItemId'] = sceneItemId;
+				n++;
 			}
-			else {
-				local.values.getChild("Scenes").getChild(scene).getChild(sourceName).getChild("IndexItem").set(sceneItemId);
+		}
+
+		//Complete EnumScenes and EnumItems menu on scene change
+		if (d.requestId.startsWith("active_items_")) {
+			EnumItems.removeOptions();
+			if (d.responseData['sceneItems'][0]) {
+				var n = 0;
+				while (d.responseData['sceneItems'][n].sourceName != null) {
+					var sceneItemId = d.responseData['sceneItems'][n].sceneItemId;
+					var sourceName = d.responseData['sceneItems'][n].sourceName;
+					EnumItems.addOption(sourceName, sceneItemId);
+					n++;
+				}
+				EnumItems.setPrevious(true);
+				GetSceneItemTransform('active_item_parameter', EnumScenes.get(), EnumItems.get());
 			}
-			n++;
+		}
+
+	}
+
+	//GetSceneItemTransform get transform parameters for the active item
+	if (d.requestType == "GetSceneItemTransform") {
+		if (d.requestId.startsWith("active_item_parameter")) {
+			local.values.getChild("Active Item Transform").getChild("X").set(d.responseData.sceneItemTransform.positionX);
+			local.values.getChild("Active Item Transform").getChild("Y").set(d.responseData.sceneItemTransform.positionY);
+			local.values.getChild("Active Item Transform").getChild("Zoom").set(d.responseData.sceneItemTransform.scaleX);
+			local.values.getChild("Active Item Transform").getChild("Rotation").set(d.responseData.sceneItemTransform.rotation);
+			local.values.getChild("Active Item Transform").getChild("Crop_Bot").set(d.responseData.sceneItemTransform.cropBottom);
+			local.values.getChild("Active Item Transform").getChild("Crop_Left").set(d.responseData.sceneItemTransform.cropLeft);
+			local.values.getChild("Active Item Transform").getChild("Crop_Right").set(d.responseData.sceneItemTransform.cropRight);
+			local.values.getChild("Active Item Transform").getChild("Crop_Top").set(d.responseData.sceneItemTransform.cropTop);
+
 		}
 	}
 
@@ -228,12 +299,53 @@ function wsMessageReceived(message) {
 	}
 	//CurrentProgramSceneChanged Event
 	if (d.eventType == "CurrentProgramSceneChanged") {
+		if (!local.values.controlsStatus.studioModeStatus.get()){
+			EnumScenes.set(d.eventData.sceneName);
+			GetSceneItemList("active_items_" + d.eventData.sceneName, d.eventData.sceneName);
+		}
 		valueStringParameter("CurrentScene", d.eventData.sceneName);
+	}
+	//StudioModeStateChanged Event
+	if (d.eventType == "StudioModeStateChanged") {
+		local.values.controlsStatus.studioModeStatus.set(d.eventData.studioModeEnabled);
+		if (!d.eventData.studioModeEnabled){
+			GetCurrentProgramScene(7);
+		}
+	}
+	//CurrentPreviewSceneChanged Event (need for studio mode)
+	if (d.eventType == "CurrentPreviewSceneChanged") {
+		EnumScenes.set(d.eventData.sceneName);
+		GetSceneItemList("active_items_" + d.eventData.sceneName, d.eventData.sceneName);
 	}
 
 	//InputMuteStateChanged
 	if (d.eventType == "InputMuteStateChanged") {
 		valueBoolContainerParameter("Audio Input", d.eventData.inputName, d.eventData.inputMuted);
+	}
+
+	//SceneItemTransformChanged
+	if (d.eventType == "SceneItemTransformChanged") {
+		if (d.eventData.sceneName == EnumScenes.get() && d.eventData.sceneItemId == local.values.getChild("Scenes").getChild(EnumScenes.get()).getChild(EnumItems.getKey()).getChild("IndexItem").get()) {
+			local.values.getChild("Active Item Transform").getChild("X").set(d.eventData.sceneItemTransform.positionX);
+			local.values.getChild("Active Item Transform").getChild("Y").set(d.eventData.sceneItemTransform.positionY);
+			local.values.getChild("Active Item Transform").getChild("Zoom").set(d.eventData.sceneItemTransform.scaleX);
+			local.values.getChild("Active Item Transform").getChild("Rotation").set(d.eventData.sceneItemTransform.rotation);
+			local.values.getChild("Active Item Transform").getChild("Crop_Bot").set(d.eventData.sceneItemTransform.cropBottom);
+			local.values.getChild("Active Item Transform").getChild("Crop_Left").set(d.eventData.sceneItemTransform.cropLeft);
+			local.values.getChild("Active Item Transform").getChild("Crop_Right").set(d.eventData.sceneItemTransform.cropRight);
+			local.values.getChild("Active Item Transform").getChild("Crop_Top").set(d.eventData.sceneItemTransform.cropTop);
+		}
+	}
+
+	if (d.eventType == "SceneItemSelected") {
+		var options = EnumItems.getAllOptions();
+		var i = 0;
+		for (i = 0; i < options.length; i++) {
+			if (d.eventData.sceneItemId == options[i].value) {
+				EnumItems.set(options[i].key);
+				GetSceneItemTransform('active_item_parameter', d.eventData.sceneName, d.eventData.sceneItemId);
+			}
+		}
 	}
 }
 
@@ -308,12 +420,12 @@ function TriggerHotkeyByName(reqId, hotkeyName) {
 
 function TriggerHotkeyByKeySequence(reqId, keyId, shift, control, alt, command) {
 	var data = {
-		"keyId" : keyId,
-		"keyModifiers" : {
-			"shift" : shift,
-			"control" : control,
-			"alt" : alt,
-			"command" : command
+		"keyId": keyId,
+		"keyModifiers": {
+			"shift": shift,
+			"control": control,
+			"alt": alt,
+			"command": command
 		}
 	};
 	sendObsCommand("TriggerHotkeyByKeySequence", data, reqId);
@@ -465,7 +577,7 @@ function SaveSourceScreenshot(reqId, sourceName, imageFormat, imageFilePath, ima
 function GetSceneList(reqId) {
 	var data = {};
 	sendObsCommand("GetSceneList", data, reqId);
-	
+
 }
 
 function GetGroupList(reqId) {
@@ -521,7 +633,7 @@ function GetSceneSceneTransitionOverride(reqId, sceneName) {
 	sendObsCommand("GetSceneSceneTransitionOverride", data, reqId);
 }
 
-function SetSceneSceneTransitionOverride(reqId, sceneName, transitionName,transitionDuration) {
+function SetSceneSceneTransitionOverride(reqId, sceneName, transitionName, transitionDuration) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["transitionName"] = transitionName;
@@ -533,8 +645,7 @@ function SetSceneSceneTransitionOverride(reqId, sceneName, transitionName,transi
 /*Inputs Requests menu*/
 function GetInputList(reqId, inputKind) {
 	var data = {};
-	if( data["inputKind"] != undefined)
-	{
+	if (data["inputKind"] != undefined) {
 		data["inputKind"] = inputKind;
 	}
 	else {
@@ -626,8 +737,8 @@ function GetInputVolume(reqId, inputName) {
 function SetInputVolume(reqId, inputName, Dbsettings, inputVolumeMul, inputVolumeDb) {
 	var data = {};
 	data["inputName"] = inputName;
-	
-	if (Dbsettings == false ) {
+
+	if (Dbsettings == false) {
 		data["inputVolumeMul"] = inputVolumeMul;
 	}
 	else if (Dbsettings == true) {
@@ -833,12 +944,12 @@ function SetSourceFilterColorCorrectionSettings(reqId, sourceName, filterName, g
 	data["sourceName"] = sourceName;
 	data["filterName"] = filterName;
 	data["filterSettings"] = {
-		"gamma":gamma,
-		"contrast":contrast,
-		"brightness":brightness,
-		"saturation":saturation,
-		"hue_shift":hue,
-		"opacity":opacity,
+		"gamma": gamma,
+		"contrast": contrast,
+		"brightness": brightness,
+		"saturation": saturation,
+		"hue_shift": hue,
+		"opacity": opacity,
 		"color_multiply": colorToInt(colorMultiply),
 		"color_add": colorToInt(colorAdd)
 	};
@@ -907,25 +1018,41 @@ function GetSceneItemTransform(reqId, sceneName, sceneItemId) {
 	sendObsCommand("GetSceneItemTransform", data, reqId);
 }
 
-function SetSceneItemTransform(reqId, sceneName, sceneItemId, positionXBool, positionX, positionYBool, positionY, scaleXBool, scaleX, scaleYBool, scaleY) {
+function SetSceneItemTransform(reqId, sceneName, sceneItemId, positionXBool, positionX, positionYBool, positionY, scaleXBool, scaleX, scaleYBool, scaleY, rotationBool, rotation, cropBottomBool, cropBottom, cropTopBool, cropTop, cropLeftBool, cropLeft, cropRightBool, cropRight) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
 	//
 	data["sceneItemTransform"] = {};
-	script.log("positionXBool = "+positionXBool);
-	script.log("positionX = "+positionX);
-	if (positionXBool == true ) {
+	script.log("positionXBool = " + positionXBool);
+	script.log("positionX = " + positionX);
+	if (positionXBool == true) {
 		data["sceneItemTransform"]["positionX"] = positionX;
 	}
-	if (positionYBool == true ) {
+	if (positionYBool == true) {
 		data["sceneItemTransform"]["positionY"] = positionY;
 	}
-	if (scaleXBool == true ) {
+	if (scaleXBool == true) {
 		data["sceneItemTransform"]["scaleX"] = scaleX;
 	}
-	if (scaleYBool == true ) {
+	if (scaleYBool == true) {
 		data["sceneItemTransform"]["scaleY"] = scaleY;
+	}
+	// Completing transform parameters for an OBS item
+	if (rotationBool == true) {
+		data["sceneItemTransform"]["rotation"] = rotation;
+	}
+	if (cropBottomBool == true) {
+		data["sceneItemTransform"]["cropBottom"] = cropBottom;
+	}
+	if (cropTopBool == true) {
+		data["sceneItemTransform"]["cropTop"] = cropTop;
+	}
+	if (cropLeftBool == true) {
+		data["sceneItemTransform"]["cropLeft"] = cropLeft;
+	}
+	if (cropRightBool == true) {
+		data["sceneItemTransform"]["cropRight"] = cropRight;
 	}
 	//data["sceneItemTransform"] = JSON.parse(sceneItemTransform);
 	sendObsCommand("SetSceneItemTransform", data, reqId);
@@ -938,7 +1065,7 @@ function GetSceneItemEnabled(reqId, sceneName, sceneItemId) {
 	sendObsCommand("GetSceneItemEnabled", data, reqId);
 }
 
-function SetSceneItemEnabled(reqId, sceneName, sceneItemId,sceneItemEnabled) {
+function SetSceneItemEnabled(reqId, sceneName, sceneItemId, sceneItemEnabled) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
@@ -953,7 +1080,7 @@ function GetSceneItemLocked(reqId, sceneName, sceneItemId) {
 	sendObsCommand("GetSceneItemLocked", data, reqId);
 }
 
-function SetSceneItemLocked(reqId, sceneName, sceneItemId,sceneItemLocked) {
+function SetSceneItemLocked(reqId, sceneName, sceneItemId, sceneItemLocked) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
@@ -968,7 +1095,7 @@ function GetSceneItemIndex(reqId, sceneName, sceneItemId) {
 	sendObsCommand("GetSceneItemIndex", data, reqId);
 }
 
-function SetSceneItemIndex(reqId, sceneName, sceneItemId,sceneItemIndex) {
+function SetSceneItemIndex(reqId, sceneName, sceneItemId, sceneItemIndex) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
@@ -983,7 +1110,7 @@ function GetSceneItemBlendMode(reqId, sceneName, sceneItemId) {
 	sendObsCommand("GetSceneItemBlendMode", data, reqId);
 }
 
-function SetSceneItemBlendMode(reqId, sceneName, sceneItemId,sceneItemBlendMode) {
+function SetSceneItemBlendMode(reqId, sceneName, sceneItemId, sceneItemBlendMode) {
 	var data = {};
 	data["sceneName"] = sceneName;
 	data["sceneItemId"] = sceneItemId;
@@ -1231,4 +1358,22 @@ function OpenSourceProjector(reqId, sourceName, monitorIndex, projectorGeometry)
 	data["monitorIndex"] = monitorIndex;
 	data["projectorGeometry"] = projectorGeometry;
 	sendObsCommand("OpenSourceProjector", data, reqId);
+}
+
+function SwitchActiveItem(direction) {
+	if (local.values.controlsStatus.controllerStatus.get()) {
+		if (direction == "Next") {
+			EnumScenes.setNext(true);
+		} else {
+			EnumScenes.setPrevious(true);
+		}
+		GetSceneItemList("active_items_" + EnumScenes.get(), EnumScenes.get());
+	} else {
+		if (direction == "Next") {
+			EnumItems.setNext(true);
+		} else {
+			EnumItems.setPrevious(true);
+		}
+		GetSceneItemTransform('active_item_parameter', EnumScenes.get(), EnumItems.get());
+	}
 }
