@@ -1,6 +1,3 @@
-// 20231014202946
-// https://raw.githubusercontent.com/tainalo2/OBS-Websocket-Chataigne-Module/main/module.json
-
 {
   "name": "OBS Websocket",
   "type": "WebSocket Client",
