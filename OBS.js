@@ -2,6 +2,7 @@ var tempo = "";
 var OBSSave = {};
 var EnumScenes = {};
 var EnumItems = {};
+var IndexItemTab = []; //associative array with sceneName as key and 
 
 function parseHex(str) {
 	var result = [];
