@@ -76,7 +76,7 @@ function removeAllValues() {
 	local.values.removeContainer("Audio Input");
 	local.values.removeContainer("Stream");
 	local.values.removeContainer("Record");
-	script.logWarning("All values have been deleted");
+	script.log("All values have been deleted");
 }
 
 /*
@@ -349,7 +349,7 @@ function wsMessageReceived(message) {
 	}
 
 	if (d.eventType == "SceneItemCreated") {
-		EnumScenes.addOption(d.eventData.sceneName, d.eventData.sceneName);
+		EnumItems.addOption(d.eventData.sourceName, d.eventData.sceneItemId);
 		local.values.getChild("Scenes").getChild(d.eventData.sceneName).addContainer(d.eventData.sourceName);
 		local.values.getChild("Scenes").getChild(d.eventData.sceneName).getChild(d.eventData.sourceName).addStringParameter("IndexItem", "", d.eventData.sceneItemId);
 		local.values.getChild("Scenes").getChild(d.eventData.sceneName).getChild(d.eventData.sourceName).getChild("IndexItem").setAttribute("readonly", true);
@@ -360,6 +360,7 @@ function wsMessageReceived(message) {
 	}
 
 	if (d.eventType == "SceneCreated") {
+		EnumScenes.addOption(d.eventData.sceneName, d.eventData.sceneName);
 		local.values.getChild("Scenes").addContainer(d.eventData.sceneName);
 	}
 

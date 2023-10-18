@@ -52,7 +52,7 @@
          },
          "Inputs": {
             "type": "Boolean",
-            "default": false
+            "default": true
          },
          "Transitions": {
             "type": "Boolean",
