@@ -91,12 +91,7 @@ function moduleValueChanged(value) {
 
 
 function toDecimal(v) {
-	var binary = v.split();
-	var decimal = 0;
-	for (var i = 0; i < binary.length; i++) {
-		decimal = (decimal * 2) + parseInt(binary[i]);
-	}
-	return decimal;
+	return parseInt(v, 2);
 }
 
 /* ************************************************************************* */
